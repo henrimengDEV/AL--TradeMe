@@ -1,4 +1,4 @@
-package org.esgi.use_cases.education_certificate.infrastructure.workflow.domain;
+package org.esgi.use_cases.workflow.domain;
 
 import org.esgi.kernel.ValueObjectId;
 

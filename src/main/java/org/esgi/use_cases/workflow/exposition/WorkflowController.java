@@ -1,4 +1,4 @@
-package org.esgi.use_cases.education_certificate.infrastructure.workflow.exposition;
+package org.esgi.use_cases.workflow.exposition;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;

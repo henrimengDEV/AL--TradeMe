@@ -1,4 +1,4 @@
-package org.esgi.use_cases.education_certificate.infrastructure.workflow.application.command;
+package org.esgi.use_cases.project.application.command;
 
 import org.esgi.kernel.CommandHandler;
 

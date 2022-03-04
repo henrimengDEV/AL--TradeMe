@@ -1,4 +1,4 @@
-package org.esgi.use_cases.education_certificate.infrastructure.workflow.application.query;
+package org.esgi.use_cases.workflow.application.query;
 
 import org.esgi.kernel.QueryHandler;
 

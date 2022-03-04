@@ -1,8 +1,8 @@
-package org.esgi.use_cases.education_certificate.infrastructure.workflow.infrastructure;
+package org.esgi.use_cases.workflow.infrastructure;
 
-import org.esgi.use_cases.education_certificate.infrastructure.workflow.domain.Workflow;
-import org.esgi.use_cases.education_certificate.infrastructure.workflow.domain.WorkflowId;
-import org.esgi.use_cases.education_certificate.infrastructure.workflow.domain.Workflows;
+import org.esgi.use_cases.workflow.domain.Workflow;
+import org.esgi.use_cases.workflow.domain.WorkflowId;
+import org.esgi.use_cases.workflow.domain.Workflows;
 
 import java.util.List;
 import java.util.Map;
