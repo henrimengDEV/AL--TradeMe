@@ -1,21 +1,23 @@
 package org.esgi.use_cases.member.application.command;
 
 
-import org.esgi.kernel.cqs.CommandHandler;
 import org.esgi.kernel.annotations.Service;
+import org.esgi.kernel.cqs.CommandHandler;
 import org.esgi.kernel.event.ApplicationEvent;
 import org.esgi.kernel.event.DomainEvent;
 import org.esgi.kernel.event.EventDispatcher;
 import org.esgi.use_cases.member.application.PaymentDTO;
 import org.esgi.use_cases.member.application.event.ProcessPaymentEvent;
-import org.esgi.use_cases.member.domain.*;
-import org.esgi.use_cases.member.domain.event.UserCreatedEvent;
+import org.esgi.use_cases.member.domain.AddressFactory;
+import org.esgi.use_cases.member.domain.MemberBuilder;
+import org.esgi.use_cases.member.domain.MemberRepository;
+import org.esgi.use_cases.member.domain.event.memberCreatedEvent;
 import org.esgi.use_cases.member.domain.model.Member;
 import org.esgi.use_cases.member.domain.model.MemberId;
 import org.esgi.use_cases.member.infrastructure.InMemoryMemberRepository;
 
 @Service
-public class CreateUserCommandHandler implements CommandHandler<CreateUser, MemberId> {
+public class CreateMemberCommandHandler implements CommandHandler<CreateMember, MemberId> {
 
     private final org.esgi.use_cases.member.domain.MemberRepository MemberRepository;
 
@@ -23,16 +25,16 @@ public class CreateUserCommandHandler implements CommandHandler<CreateUser, Memb
     private final EventDispatcher<DomainEvent>      domainEventDispatcher;
 
 
-    public CreateUserCommandHandler(MemberRepository MemberRepository,
-                                    EventDispatcher<ApplicationEvent> applicationEventDispatcher,
-                                    EventDispatcher<DomainEvent> domainEventDispatcher) {
+    public CreateMemberCommandHandler(MemberRepository MemberRepository,
+                                      EventDispatcher<ApplicationEvent> applicationEventDispatcher,
+                                      EventDispatcher<DomainEvent> domainEventDispatcher) {
         this.MemberRepository = InMemoryMemberRepository.getInstance();
         this.domainEventDispatcher = domainEventDispatcher;
         this.applicationEventDispatcher = applicationEventDispatcher;
     }
 
     @Override
-    public MemberId handle(CreateUser command) {
+    public MemberId handle(CreateMember command) {
         final MemberId memberId = MemberRepository.nextId();
         final Member member = MemberBuilder.builder()
                                            .withFirstName(command.firstname)
@@ -40,7 +42,7 @@ public class CreateUserCommandHandler implements CommandHandler<CreateUser, Memb
                                            .withLogin(command.login)
                                            .withPassword(command.password)
                                            .withMemberId(memberId)
-                                           .withMemberType(command.userType)
+                                           .withMemberRole(command.memberRole)
                                            .withAddress(AddressFactory.create(
                                              command.address.city,
                                              command.address.country,
@@ -54,7 +56,7 @@ public class CreateUserCommandHandler implements CommandHandler<CreateUser, Memb
         PaymentDTO paymentDTO = new PaymentDTO(command.payment.methodOfPayment, command.payment.subscriptionPlan, command.payment.transactionId);
         applicationEventDispatcher.dispatch(ProcessPaymentEvent.withPayment(memberId, paymentDTO));
 
-        domainEventDispatcher.dispatch(UserCreatedEvent.withUser(member));
+        domainEventDispatcher.dispatch(memberCreatedEvent.withMember(member));
 
         return memberId;
     }

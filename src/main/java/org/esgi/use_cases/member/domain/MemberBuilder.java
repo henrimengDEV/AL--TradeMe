@@ -5,12 +5,12 @@ import org.esgi.use_cases.member.domain.model.*;
 
 public class MemberBuilder {
     private String     lastname;
-    private String     firstname;
-    private MemberId   userId;
-    private String     login;
+    private String   firstname;
+    private MemberId memberId;
+    private String   login;
     private String     password;
     private Address    address;
-    private MemberRole userType;
+    private MemberRole memberRole;
     private String     mail;
 
     public static MemberBuilder builder() {
@@ -34,8 +34,8 @@ public class MemberBuilder {
         return this;
     }
 
-    public MemberBuilder withMemberId(MemberId userId) {
-        this.userId = userId;
+    public MemberBuilder withMemberId(MemberId memberId) {
+        this.memberId = memberId;
         return this;
     }
 
@@ -49,8 +49,8 @@ public class MemberBuilder {
         return this;
     }
 
-    public MemberBuilder withMemberType(String usertype) {
-        this.userType = MemberRole.fromString(usertype);
+    public MemberBuilder withMemberRole(String memberRole) {
+        this.memberRole = MemberRole.fromString(memberRole);
         return this;
     }
 
@@ -64,10 +64,10 @@ public class MemberBuilder {
                 lastname,
                 firstname,
                 login,
-                userId,
+                memberId,
                 password,
                 address,
-                userType,
+                memberRole,
                 mail);
     }
 

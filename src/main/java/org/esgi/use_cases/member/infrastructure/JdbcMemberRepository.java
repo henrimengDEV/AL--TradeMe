@@ -1,9 +1,9 @@
 package org.esgi.use_cases.member.infrastructure;
 
 
+import org.esgi.use_cases.member.domain.MemberRepository;
 import org.esgi.use_cases.member.domain.model.Member;
 import org.esgi.use_cases.member.domain.model.MemberId;
-import org.esgi.use_cases.member.domain.MemberRepository;
 
 import java.util.List;
 
@@ -11,12 +11,12 @@ import java.util.List;
 public final class JdbcMemberRepository implements MemberRepository {
 
     @Override
-    public Member add(Member user) {
+    public Member add(Member member) {
         throw new UnsupportedOperationException("Not yet implemented.");
     }
 
     @Override
-    public Member update(Member user) {
+    public Member update(Member member) {
         throw new UnsupportedOperationException("Not yet implemented.");
     }
 
@@ -31,12 +31,17 @@ public final class JdbcMemberRepository implements MemberRepository {
     }
 
     @Override
-    public Member findById(MemberId userId) {
+    public Member findById(MemberId memberId) {
         throw new UnsupportedOperationException("Not yet implemented.");
     }
 
     @Override
     public List<Member> findByCity(String city) {
+        throw new UnsupportedOperationException("Not yet implemented.");
+    }
+
+    @Override
+    public List<Member> findByRole(String role) {
         throw new UnsupportedOperationException("Not yet implemented.");
     }
 }

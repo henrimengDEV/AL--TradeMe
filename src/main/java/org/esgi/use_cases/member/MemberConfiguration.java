@@ -4,21 +4,21 @@ package org.esgi.use_cases.member;
 import org.esgi.kernel.annotations.Configuration;
 import org.esgi.kernel.cqs.*;
 import org.esgi.kernel.event.*;
-import org.esgi.use_cases.member.application.command.CreateUser;
-import org.esgi.use_cases.member.application.command.CreateUserCommandHandler;
+import org.esgi.use_cases.member.application.command.CreateMember;
+import org.esgi.use_cases.member.application.command.CreateMemberCommandHandler;
 import org.esgi.use_cases.member.application.event.ProcessPaymentEvent;
 import org.esgi.use_cases.member.application.query.*;
 import org.esgi.use_cases.member.domain.MemberRepository;
-import org.esgi.use_cases.member.domain.event.UserCreatedEvent;
-import org.esgi.use_cases.member.domain.event.UserCreatedEventListener;
+import org.esgi.use_cases.member.domain.event.MemberCreatedEventListener;
+import org.esgi.use_cases.member.domain.event.memberCreatedEvent;
 import org.esgi.use_cases.member.exposition.response.MemberResponseAdapter;
 import org.esgi.use_cases.member.infrastructure.DefaultEventDispatcher;
 import org.esgi.use_cases.member.infrastructure.InMemoryMemberRepository;
 import org.esgi.use_cases.member.infrastructure.NotificationsByMail;
+import org.esgi.use_cases.payment.application.PaymentServiceDefault;
 import org.esgi.use_cases.payment.application.command.ProcessPayment;
 import org.esgi.use_cases.payment.application.command.ProcessPaymentCommandHandler;
 import org.esgi.use_cases.payment.application.event.ProcessPaymentEventListener;
-import org.esgi.use_cases.payment.application.PaymentServiceDefault;
 import org.esgi.use_cases.payment.domain.PaymentRepository;
 import org.esgi.use_cases.payment.domain.PaymentService;
 import org.esgi.use_cases.payment.domain.event.MemberSubscriptionConfirmedEvent;
@@ -46,7 +46,7 @@ public class MemberConfiguration {
     @Dependent
     public EventDispatcher<DomainEvent> domainEventDispatcher() {
         final Map<Class<? extends Event>, List<EventListener<? extends Event>>> listenerMap = new HashMap<>();
-        listenerMap.put(UserCreatedEvent.class, List.of(new UserCreatedEventListener(new NotificationsByMail())));
+        listenerMap.put(memberCreatedEvent.class, List.of(new MemberCreatedEventListener(new NotificationsByMail())));
         listenerMap.put(MemberSubscriptionConfirmedEvent.class, List.of(new MemberSubscriptionConfirmedEventListener(new NotificationsByMail())));
         return new DefaultEventDispatcher(listenerMap);
     }
@@ -55,7 +55,7 @@ public class MemberConfiguration {
     @Dependent
     public CommandBus commandBus() {
         final Map<Class<? extends Command>, CommandHandler> commandHandlerMap = new HashMap<>();
-        commandHandlerMap.put(CreateUser.class, new CreateUserCommandHandler(userRepository(), applicationEventDispatcher(), domainEventDispatcher()));
+        commandHandlerMap.put(CreateMember.class, new CreateMemberCommandHandler(memberRepository(), applicationEventDispatcher(), domainEventDispatcher()));
         commandHandlerMap.put(ProcessPayment.class, new ProcessPaymentCommandHandler(paymentService()));
         return new SimpleCommandBus(commandHandlerMap);
     }
@@ -64,15 +64,16 @@ public class MemberConfiguration {
     @Dependent
     public QueryBus queryBus() {
         final Map<Class<? extends Query>, QueryHandler> queryHandlerMap = new HashMap<>();
-        queryHandlerMap.put(RetrieveUsers.class, new RetrieveUsersHandler(userRepository()));
-        queryHandlerMap.put(RetrieveUserById.class, new RetrieveUserByIdHandler(userRepository()));
-        queryHandlerMap.put(RetrieveUsersByCity.class, new RetrieveUsersByCityHandler(userRepository()));
+        queryHandlerMap.put(RetrieveMembers.class, new RetrieveMembersHandler(memberRepository()));
+        queryHandlerMap.put(RetrieveMemberById.class, new RetrieveMemberByIdHandler(memberRepository()));
+        queryHandlerMap.put(RetrieveMembersByCity.class, new RetrieveMembersByCityHandler(memberRepository()));
+        queryHandlerMap.put(RetrieveMembersByRole.class, new RetrieveMembersByRoleHandler(memberRepository()));
         return new SimpleQueryBus(queryHandlerMap);
     }
 
     //Repository beans
     @Singleton
-    public MemberRepository userRepository() {
+    public MemberRepository memberRepository() {
         return InMemoryMemberRepository.getInstance();
     }
 
@@ -84,7 +85,7 @@ public class MemberConfiguration {
     //Service beans
     @Singleton
     public PaymentService paymentService() {
-        return new PaymentServiceDefault(paymentRepository(), userRepository(), domainEventDispatcher());
+        return new PaymentServiceDefault(paymentRepository(), memberRepository(), domainEventDispatcher());
     }
 
     //Adapter beans

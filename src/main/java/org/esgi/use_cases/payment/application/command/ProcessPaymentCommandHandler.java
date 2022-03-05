@@ -1,10 +1,10 @@
 package org.esgi.use_cases.payment.application.command;
 
-import org.esgi.kernel.cqs.CommandHandler;
 import org.esgi.kernel.annotations.Service;
+import org.esgi.kernel.cqs.CommandHandler;
 import org.esgi.use_cases.member.domain.model.MemberId;
-import org.esgi.use_cases.payment.domain.model.PaymentId;
 import org.esgi.use_cases.payment.domain.PaymentService;
+import org.esgi.use_cases.payment.domain.model.PaymentId;
 
 @Service
 public class ProcessPaymentCommandHandler implements CommandHandler<ProcessPayment, PaymentId> {

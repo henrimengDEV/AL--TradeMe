@@ -25,7 +25,7 @@ public class MemberResponse {
 
     @Override
     public String toString() {
-        return "UserDTO{" +
+        return "MemberDTO{" +
                 "id=" + id +
                 ", lastname='" + lastname + '\'' +
                 ", firstname='" + firstname + '\'' +
