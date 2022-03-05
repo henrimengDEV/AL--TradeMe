@@ -1,7 +1,6 @@
 package org.esgi.use_cases.education_certificate.domain;
 
-import org.esgi.kernel.Repository;
-import org.esgi.use_cases.contractor.domain.Contractor;
+import org.esgi.kernel.annotations.Repository;
 
 import java.util.List;
 

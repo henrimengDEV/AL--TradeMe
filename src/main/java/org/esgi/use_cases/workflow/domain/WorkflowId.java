@@ -2,6 +2,12 @@ package org.esgi.use_cases.workflow.domain;
 
 import org.esgi.kernel.ValueObjectId;
 
-@ValueObjectId
-public final class WorkflowId {
+
+public final class WorkflowId implements ValueObjectId{
+
+
+    @Override
+    public int getValue() {
+        return 0;
+    }
 }

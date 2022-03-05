@@ -1,6 +1,6 @@
 package org.esgi.use_cases.project.domain;
 
-import org.esgi.kernel.Repository;
+import org.esgi.kernel.annotations.Repository;
 
 import java.util.List;
 
