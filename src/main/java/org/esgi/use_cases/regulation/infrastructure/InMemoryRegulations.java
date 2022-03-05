@@ -5,6 +5,7 @@ import org.esgi.use_cases.regulation.domain.Regulation;
 import org.esgi.use_cases.regulation.domain.RegulationId;
 import org.esgi.use_cases.regulation.domain.Regulations;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -18,26 +19,28 @@ public class InMemoryRegulations implements Regulations {
 
     @Override
     public int nextIdentity() {
-        return 0;
+        return this.count.incrementAndGet();
     }
 
     @Override
     public Regulation findById(RegulationId id) {
-        return null;
+        return this.data.get(id);
     }
 
     @Override
     public List<Regulation> findAll() {
-        return null;
+        return new ArrayList<>(this.data.values());
     }
 
     @Override
-    public Void add(Regulation Regulation) {
+    public Void add(Regulation regulation) {
+        this.data.put(regulation.getId(), regulation);
         return null;
     }
 
     @Override
     public Void removeById(RegulationId id) {
+        this.data.remove(id);
         return null;
     }
 }
