@@ -1,4 +1,5 @@
 package org.esgi.kernel;
 
-public @interface ValueObjectId {
+public interface ValueObjectId {
+    int getValue();
 }

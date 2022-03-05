@@ -1,6 +1,6 @@
 package org.esgi.use_cases.education_certificate.infrastructure;
 
-import org.esgi.kernel.RepositoryImpl;
+import org.esgi.kernel.annotations.RepositoryImpl;
 import org.esgi.use_cases.education_certificate.domain.EducationCertificate;
 import org.esgi.use_cases.education_certificate.domain.EducationCertificateId;
 import org.esgi.use_cases.education_certificate.domain.EducationCertificates;

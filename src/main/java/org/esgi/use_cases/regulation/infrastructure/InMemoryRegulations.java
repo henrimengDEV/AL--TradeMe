@@ -1,6 +1,6 @@
 package org.esgi.use_cases.regulation.infrastructure;
 
-import org.esgi.kernel.RepositoryImpl;
+import org.esgi.kernel.annotations.RepositoryImpl;
 import org.esgi.use_cases.regulation.domain.Regulation;
 import org.esgi.use_cases.regulation.domain.RegulationId;
 import org.esgi.use_cases.regulation.domain.Regulations;

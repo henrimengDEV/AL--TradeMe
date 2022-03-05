@@ -1,6 +1,6 @@
 package org.esgi.use_cases.workflow.application.query;
 
-import org.esgi.kernel.QueryHandler;
+import org.esgi.kernel.cqs.QueryHandler;
 
 public class MyQueryHandler implements QueryHandler<MyQuery, Void> {
     
