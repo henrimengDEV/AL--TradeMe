@@ -9,6 +9,6 @@ public interface Regulations {
     int nextIdentity();
     Regulation findById(RegulationId id);
     List<Regulation> findAll();
-    Void add(Regulation regulation);
+    RegulationId add(Regulation regulation);
     Void removeById(RegulationId id);
 }

@@ -3,6 +3,7 @@ package org.esgi.kernel;
 import java.util.Map;
 
 public class SimpleCommandBus implements CommandBus {
+
     private final Map<Class<? extends Command>, CommandHandler> dataMap;
 
     public SimpleCommandBus(Map<Class<? extends Command>, CommandHandler> dataMap) {

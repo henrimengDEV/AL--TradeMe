@@ -15,11 +15,27 @@ public final class Regulation {
         this.creationDate = creationDate;
     }
 
-    public static Regulation ofNow(RegulationId id) {
+    public static Regulation of(RegulationId id, LocalDate creationDate) {
+        return new Regulation(id, creationDate);
+    }
+
+    public static Regulation of(RegulationId id) {
         return new Regulation(id, LocalDate.now());
     }
 
     public RegulationId getId() {
         return id;
+    }
+
+    public LocalDate getCreationDate() {
+        return creationDate;
+    }
+
+    @Override
+    public String toString() {
+        return "Regulation{" +
+                "id=" + id +
+                ", creationDate=" + creationDate +
+                '}';
     }
 }
