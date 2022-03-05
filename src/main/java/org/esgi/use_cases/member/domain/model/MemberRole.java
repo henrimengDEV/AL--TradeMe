@@ -4,19 +4,19 @@ public enum MemberRole {
     TRADESMAN("tradesman"),
     CONTRACTOR("contractor");
 
-    private final String memberType;
+    private final String role;
 
-    MemberRole(String memberType) {
-        this.memberType = memberType;
+    MemberRole(String role) {
+        this.role = role;
     }
 
-    public String getMemberType() {
-        return this.memberType;
+    public String getRole() {
+        return this.role;
     }
 
     public static MemberRole fromString(String text) {
         for (MemberRole val : MemberRole.values()) {
-            if (val.memberType.equalsIgnoreCase(text)) {
+            if (val.role.equalsIgnoreCase(text)) {
                 return val;
             }
         }

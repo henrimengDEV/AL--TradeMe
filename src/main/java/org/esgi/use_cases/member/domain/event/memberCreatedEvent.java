@@ -6,21 +6,21 @@ import org.esgi.use_cases.member.domain.model.Member;
 
 import java.time.ZonedDateTime;
 
-public class UserCreatedEvent implements DomainEvent {
+public class memberCreatedEvent implements DomainEvent {
     private final EventId       eventId;
     private final ZonedDateTime occurredDate;
-    private final Member        user;
+    private final Member        member;
 
-    public UserCreatedEvent(EventId eventId,
-                            ZonedDateTime occurredDate,
-                            Member user) {
+    public memberCreatedEvent(EventId eventId,
+                              ZonedDateTime occurredDate,
+                              Member member) {
         this.eventId = eventId;
         this.occurredDate = occurredDate;
-        this.user = user;
+        this.member = member;
     }
 
-    public static UserCreatedEvent withUser(Member user) {
-        return new UserCreatedEvent(EventId.create(), ZonedDateTime.now(), user);
+    public static memberCreatedEvent withMember(Member member) {
+        return new memberCreatedEvent(EventId.create(), ZonedDateTime.now(), member);
     }
 
     @Override
@@ -33,7 +33,7 @@ public class UserCreatedEvent implements DomainEvent {
         return this.occurredDate;
     }
 
-    public Member getUser() {
-        return this.user;
+    public Member getMember() {
+        return this.member;
     }
 }

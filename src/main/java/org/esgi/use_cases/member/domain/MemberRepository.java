@@ -7,15 +7,17 @@ import java.util.List;
 
 public interface MemberRepository {
 
-    Member add(Member user);
+    Member add(Member member);
 
-    Member update(Member user);
+    Member update(Member member);
 
     MemberId nextId();
 
     List<Member> findAll();
 
-    Member findById(MemberId userId);
+    Member findById(MemberId memberId);
 
     List<Member> findByCity(String city);
+
+    List<Member> findByRole(String role);
 }

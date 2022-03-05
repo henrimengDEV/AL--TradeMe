@@ -1,15 +1,16 @@
 package org.esgi.use_cases.member.exposition;
 
 
+import org.esgi.kernel.annotations.Controller;
 import org.esgi.kernel.cqs.CommandBus;
 import org.esgi.kernel.cqs.QueryBus;
-import org.esgi.kernel.annotations.Controller;
 import org.esgi.use_cases.member.application.AddressDTO;
 import org.esgi.use_cases.member.application.PaymentDTO;
-import org.esgi.use_cases.member.application.command.CreateUser;
-import org.esgi.use_cases.member.application.query.RetrieveUserById;
-import org.esgi.use_cases.member.application.query.RetrieveUsers;
-import org.esgi.use_cases.member.application.query.RetrieveUsersByCity;
+import org.esgi.use_cases.member.application.command.CreateMember;
+import org.esgi.use_cases.member.application.query.RetrieveMemberById;
+import org.esgi.use_cases.member.application.query.RetrieveMembers;
+import org.esgi.use_cases.member.application.query.RetrieveMembersByCity;
+import org.esgi.use_cases.member.application.query.RetrieveMembersByRole;
 import org.esgi.use_cases.member.domain.model.Member;
 import org.esgi.use_cases.member.domain.model.MemberId;
 import org.esgi.use_cases.member.exposition.request.MemberRequest;
@@ -46,40 +47,52 @@ public class MemberController {
 
     @GET()
     @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+    @Path("/all")
     public Response getAll() {
-        final List<Member> users = queryBus.send(new RetrieveUsers());
+        final List<Member> members = queryBus.send(new RetrieveMembers());
         MembersResponse memberResponseResult = new MembersResponse(
-                users.stream().map(memberResponseAdapter::adapt).collect(Collectors.toList())
+                members.stream().map(memberResponseAdapter::adapt).collect(Collectors.toList())
         );
         return Response.ok(memberResponseResult).build();
     }
 
     @GET()
     @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
+    @Path("/")
+    public Response getByRole(@QueryParam("role") String role) {
+        final List<Member>   members               = queryBus.send(new RetrieveMembersByRole(role));
+        MembersResponse membersResponse = new MembersResponse(
+                members.stream().map(memberResponseAdapter::adapt).collect(Collectors.toList())
+        );
+        return Response.ok(membersResponse).build();
+    }
+
+    @GET()
+    @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     @Path("/{id}")
     public Response getById(@PathParam("id") int id) {
-        final Member   user               = queryBus.send(new RetrieveUserById(id));
-        MemberResponse userResponseResult = memberResponseAdapter.adapt(user);
-        return Response.ok(userResponseResult).build();
+        final Member   member               = queryBus.send(new RetrieveMemberById(id));
+        MemberResponse memberResponseResult = memberResponseAdapter.adapt(member);
+        return Response.ok(memberResponseResult).build();
     }
 
     @GET()
     @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     @Path("/city")
     public Response getByCity(@QueryParam("city") String city) {
-        final List<Member> users = queryBus.send(new RetrieveUsersByCity(city));
-        MembersResponse usersResponseResult = new MembersResponse(
-                users.stream().map(memberResponseAdapter::adapt).collect(Collectors.toList())
+        final List<Member> members = queryBus.send(new RetrieveMembersByCity(city));
+        MembersResponse membersResponse = new MembersResponse(
+                members.stream().map(memberResponseAdapter::adapt).collect(Collectors.toList())
         );
-        return Response.ok(usersResponseResult).build();
+        return Response.ok(membersResponse).build();
     }
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     public Response create(@Valid MemberRequest request) {
-        LOGGER.info("Registering User" + "\n");
+        LOGGER.info("Registering Member" + "\n");
 
-        CreateUser createUser = new CreateUser(
+        CreateMember createMember = new CreateMember(
                 request.lastname,
                 request.firstname,
                 request.login,
@@ -94,9 +107,9 @@ public class MemberController {
                 new PaymentDTO(request.payment.methodOfPayment, request.payment.subscriptionPlan, request.payment.transactionId)
         );
 
-        MemberId userId = commandBus.send(createUser);
+        MemberId memberId = commandBus.send(createMember);
 
-        return Response.created(URI.create("/users/" + userId.getValue())).build();
+        return Response.created(URI.create("/members/" + memberId.getValue())).build();
     }
 
 }

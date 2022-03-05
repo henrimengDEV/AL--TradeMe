@@ -1,4 +1,4 @@
-package org.al_cc.TradeMe.use_cases.user.domain;
+package org.esgi.use_cases.member.domain;
 
 import org.esgi.use_cases.member.domain.model.Member;
 import org.esgi.use_cases.member.domain.model.MemberId;
@@ -8,11 +8,11 @@ import java.util.List;
 
 public interface MemberService {
 
-    Member save(Member user);
+    Member save(Member member);
 
-    Member update(Member user);
+    Member update(Member member);
 
-    Member getById(MemberId userId);
+    Member getById(MemberId memberId);
 
     MemberId getNextId();
 

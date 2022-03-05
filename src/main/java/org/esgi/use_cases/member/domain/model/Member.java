@@ -8,7 +8,7 @@ public interface Member {
 
     String getLogin();
 
-    MemberId getUserId();
+    MemberId getMemberId();
 
     Address getAddress();
 
@@ -20,7 +20,7 @@ public interface Member {
 
     String toStringWithAddress();
 
-    void addUserId(int id);
+    void addMemberId(int id);
 
     void changeAddress(Address address);
 

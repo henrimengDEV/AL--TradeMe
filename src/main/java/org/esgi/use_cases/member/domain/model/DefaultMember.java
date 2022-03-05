@@ -8,33 +8,33 @@ public class DefaultMember implements Member {
     private final String   lastname;
     private final String   firstname;
     private final String   login;
-    private       MemberId userId;
+    private       MemberId memberId;
     private final String   password;
     private       Address    address;
-    private final MemberRole userType;
+    private final MemberRole memberRole;
     private final String     mail;
 
     private DefaultMember(String lastname,
                          String firstname,
                          String login,
-                         MemberId userId,
+                         MemberId memberId,
                          String password,
                          Address address,
-                         MemberRole userType,
+                         MemberRole memberRole,
                          String mail) {
         this.lastname = lastname;
         this.firstname = firstname;
         this.login = login;
-        this.userId = userId;
+        this.memberId = memberId;
         this.password = password;
         this.address = address;
-        this.userType = userType;
+        this.memberRole = memberRole;
         this.mail = mail;
     }
 
-    public static DefaultMember of(String lastname, String firstname, String login, MemberId userId, String password,
-                                   Address address, MemberRole userType, String mail) {
-        return new DefaultMember(lastname, firstname, login, userId, password, address, userType, mail);
+    public static DefaultMember of(String lastname, String firstname, String login, MemberId memberId, String password,
+                                   Address address, MemberRole memberRole, String mail) {
+        return new DefaultMember(lastname, firstname, login, memberId, password, address, memberRole, mail);
     }
 
     @Override
@@ -53,8 +53,8 @@ public class DefaultMember implements Member {
     }
 
     @Override
-    public MemberId getUserId() {
-        return userId;
+    public MemberId getMemberId() {
+        return memberId;
     }
 
     @Override
@@ -64,7 +64,7 @@ public class DefaultMember implements Member {
 
     @Override
     public MemberRole getMemberRole() {
-        return userType;
+        return memberRole;
     }
 
     @Override
@@ -73,8 +73,8 @@ public class DefaultMember implements Member {
     }
 
     @Override
-    public void addUserId(int id) {
-        this.userId = new MemberId(id);
+    public void addMemberId(int id) {
+        this.memberId = new MemberId(id);
     }
 
     @Override
@@ -84,22 +84,22 @@ public class DefaultMember implements Member {
 
     @Override
     public String toString() {
-        return "User{ " +
-                "userId = '" + (Objects.isNull(userId) ? "" : userId.getValue()) + '\'' +
+        return "Member{ " +
+                "memberId = '" + (Objects.isNull(memberId) ? "" : memberId.getValue()) + '\'' +
                 ", lastname = '" + lastname + '\'' +
                 ", firstname = '" + firstname + '\'' +
-                ", type = '" + userType.getMemberType() + '\'' +
+                ", type = '" + memberRole.getRole() + '\'' +
                 ", mail = '" + mail + '\'' +
                 '}';
     }
 
     @Override
     public String toStringWithAddress() {
-        return "User{" +
-                "userId = '" + (Objects.isNull(userId) ? "" : userId.getValue()) + '\'' +
+        return "Member{" +
+                "memberId = '" + (Objects.isNull(memberId) ? "" : memberId.getValue()) + '\'' +
                 ", lastname = '" + lastname + '\'' +
                 ", firstname = '" + firstname + '\'' +
-                ", type = '" + userType.getMemberType() + '\'' +
+                ", type = '" + memberRole.getRole() + '\'' +
                 "\n" + address.toString() +
                 ", mail = '" + mail + '\'' +
                 '}';

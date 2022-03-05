@@ -9,7 +9,7 @@ public class MemberResponseAdapter implements Adapter<Member, MemberResponse> {
     @Override
     public MemberResponse adapt(Member source) {
         return new MemberResponse(
-                String.valueOf(source.getUserId().getValue()),
+                String.valueOf(source.getMemberId().getValue()),
                 source.getLastname(),
                 source.getFirstname(),
                 source.getLogin(),

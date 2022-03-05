@@ -13,7 +13,7 @@ public class NoMember implements Member {
         throw new UnsupportedOperationException();
     }
 
-    @Override public MemberId getUserId() {
+    @Override public MemberId getMemberId() {
         throw new UnsupportedOperationException();
     }
 
@@ -33,7 +33,7 @@ public class NoMember implements Member {
         throw new UnsupportedOperationException();
     }
 
-    @Override public void addUserId(int id) {
+    @Override public void addMemberId(int id) {
         throw new UnsupportedOperationException();
     }
 

@@ -23,8 +23,8 @@ public final class MemberId implements ValueObjectId {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        MemberId userId = (MemberId) o;
-        return value == userId.value;
+        MemberId memberId = (MemberId) o;
+        return value == memberId.value;
     }
 
     @Override
@@ -34,7 +34,7 @@ public final class MemberId implements ValueObjectId {
 
     @Override
     public String toString() {
-        return "UserId{" +
+        return "MemberId{" +
                 "value=" + value +
                 '}';
     }

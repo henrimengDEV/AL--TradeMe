@@ -1,4 +1,4 @@
-package org.al_cc.TradeMe.use_cases.user;
+package org.esgi.use_cases.member;
 
 
 import org.esgi.kernel.exceptions.NoSuchEntityException;
@@ -32,6 +32,9 @@ public class ErrorsMapper implements ExceptionMapper<RuntimeException> {
 
         else if (exception instanceof PaymentException)
             code = 424;
+
+        else if(exception instanceof IllegalArgumentException)
+            code = Response.Status.BAD_REQUEST.getStatusCode();
 
         else throw exception;
 

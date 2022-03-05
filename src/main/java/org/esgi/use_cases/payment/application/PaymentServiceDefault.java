@@ -5,9 +5,9 @@ import org.esgi.kernel.annotations.Service;
 import org.esgi.kernel.event.DomainEvent;
 import org.esgi.kernel.event.EventDispatcher;
 import org.esgi.kernel.event.EventId;
+import org.esgi.use_cases.member.domain.MemberRepository;
 import org.esgi.use_cases.member.domain.model.Member;
 import org.esgi.use_cases.member.domain.model.MemberId;
-import org.esgi.use_cases.member.domain.MemberRepository;
 import org.esgi.use_cases.payment.domain.*;
 import org.esgi.use_cases.payment.domain.event.MemberSubscriptionConfirmedEvent;
 import org.esgi.use_cases.payment.domain.model.*;
@@ -24,7 +24,9 @@ public class PaymentServiceDefault implements PaymentService {
     private final MemberRepository             memberRepository;
     private final EventDispatcher<DomainEvent> domainEventDispatcher;
 
-    public PaymentServiceDefault(PaymentRepository paymentRepository, MemberRepository memberRepository, EventDispatcher<DomainEvent> domainEventDispatcher) {
+    public PaymentServiceDefault(PaymentRepository paymentRepository,
+                                 MemberRepository memberRepository,
+                                 EventDispatcher<DomainEvent> domainEventDispatcher) {
         this.memberRepository = memberRepository;
         this.paymentRepository = paymentRepository;
         this.domainEventDispatcher = domainEventDispatcher;
@@ -32,7 +34,7 @@ public class PaymentServiceDefault implements PaymentService {
 
     @Override
     public PaymentId process(MemberId memberId, String transactionId, String methodOfPayment, String subscriptionPlan) {
-        Member    member      = this.memberRepository.findById(memberId);
+        Member    member    = this.memberRepository.findById(memberId);
         PaymentId paymentId = this.paymentRepository.nextId();
         Price     price     = EuroPrice.of(10);         //Fake retrieve price from database
         Payment paymentToProceed = DefaultPayment.of(
@@ -45,13 +47,14 @@ public class PaymentServiceDefault implements PaymentService {
                 false
         );
 
-        LOGGER.info("Payment started for : " + member.getLogin() + ", type= " + member.getMemberRole().toString() + "\n");
+        LOGGER.info("Payment started for : " + member.getLogin() + ", type= " + member.getMemberRole()
+                                                                                      .toString() + "\n");
 
         PaymentStrategy paymentStrategy = PaymentStrategyFactory.getStrategy(
                 Objects.requireNonNull(MethodOfPaymentType.fromString(methodOfPayment))
         );
-        Payment payment = paymentStrategy.pay(paymentToProceed);
-        var paymentResult = this.paymentRepository.add(payment);
+        Payment payment       = paymentStrategy.pay(paymentToProceed);
+        var     paymentResult = this.paymentRepository.add(payment);
 
         domainEventDispatcher.dispatch(new MemberSubscriptionConfirmedEvent(EventId.create(), ZonedDateTime.now(), member, payment));
 

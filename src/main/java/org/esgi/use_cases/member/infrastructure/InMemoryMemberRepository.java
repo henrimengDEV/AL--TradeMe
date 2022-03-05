@@ -2,9 +2,9 @@ package org.esgi.use_cases.member.infrastructure;
 
 
 import org.esgi.kernel.exceptions.NoSuchEntityException;
+import org.esgi.use_cases.member.domain.MemberRepository;
 import org.esgi.use_cases.member.domain.model.Member;
 import org.esgi.use_cases.member.domain.model.MemberId;
-import org.esgi.use_cases.member.domain.MemberRepository;
 
 import java.util.List;
 import java.util.Map;
@@ -29,16 +29,16 @@ public final class InMemoryMemberRepository implements MemberRepository {
     }
 
     @Override
-    public Member add(Member user) {
-        data.put(user.getUserId(), user);
-        user.addUserId(counter.get());
-        return user;
+    public Member add(Member member) {
+        data.put(member.getMemberId(), member);
+        member.addMemberId(counter.get());
+        return member;
     }
 
     @Override
-    public Member update(Member user) {
-        data.put(user.getUserId(), user);
-        return data.get(user.getUserId());
+    public Member update(Member member) {
+        data.put(member.getMemberId(), member);
+        return data.get(member.getMemberId());
     }
 
 
@@ -52,23 +52,35 @@ public final class InMemoryMemberRepository implements MemberRepository {
         return data.values().stream().collect(Collectors.toList());
     }
 
-    @Override public Member findById(MemberId userId) {
-        final Member user = data.get(userId);
-        if (user == null) {
-            throw new NoSuchEntityException("No member for " + userId.getValue());
+    @Override public Member findById(MemberId memberId) {
+        final Member member = data.get(memberId);
+        if (member == null) {
+            throw new NoSuchEntityException("No member for " + memberId.getValue());
         }
-        return user;
+        return member;
     }
 
     @Override
     public List<Member> findByCity(String city) {
-        List<Member> users = data.values()
+        List<Member> members = data.values()
                                  .stream()
-                                 .filter(user -> user.getAddress().city().equalsIgnoreCase(city))
+                                 .filter(member -> member.getAddress().city().equalsIgnoreCase(city))
                                  .collect(Collectors.toList());
-        if (users.isEmpty()) {
+        if (members.isEmpty()) {
             throw new NoSuchEntityException("no members for the city " + city);
         }
-        return users;
+        return members;
+    }
+
+    @Override
+    public List<Member> findByRole(String role) {
+        List<Member> members = data.values()
+                                 .stream()
+                                 .filter(member -> member.getMemberRole().getRole().equalsIgnoreCase(role))
+                                 .collect(Collectors.toList());
+        if (members.isEmpty()) {
+            throw new NoSuchEntityException("no members for role " + role);
+        }
+        return members;
     }
 }
