@@ -6,9 +6,9 @@ import java.util.List;
 
 @Repository
 public interface Projects {
-    int nextIdentity();
+    ProjectId nextIdentity();
     Project findById(ProjectId id);
     List<Project> findAll();
-    Void add(Project Project);
+    ProjectId add(Project Project);
     Void removeById(ProjectId id);
 }

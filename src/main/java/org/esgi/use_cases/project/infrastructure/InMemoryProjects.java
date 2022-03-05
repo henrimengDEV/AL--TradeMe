@@ -15,13 +15,18 @@ public class InMemoryProjects implements Projects {
     private final Map<ProjectId, Project> data = new ConcurrentHashMap<>();
 
     @Override
-    public int nextIdentity() {
-        return 0;
+    public ProjectId nextIdentity() {
+        ProjectId id = ProjectId.of(this.count.incrementAndGet());
+        return id;
     }
 
     @Override
     public Project findById(ProjectId id) {
-        return null;
+        final Project project = data.get(id);
+        if(project == null) {
+            throw new IllegalArgumentException("bad id");
+        }
+        return project;
     }
 
     @Override
@@ -30,7 +35,7 @@ public class InMemoryProjects implements Projects {
     }
 
     @Override
-    public Void add(Project Project) {
+    public ProjectId add(Project Project) {
         return null;
     }
 

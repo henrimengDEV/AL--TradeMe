@@ -2,10 +2,10 @@ package org.esgi.use_cases.project.application.query;
 
 import org.esgi.kernel.QueryHandler;
 
-public class MyQueryHandler implements QueryHandler<MyQuery, Void> {
+public class RetrieveProjectsHandler implements QueryHandler<RetrieveProjects, Void> {
     
     @Override
-    public Void handle(MyQuery command) {
+    public Void handle(RetrieveProjects command) {
         return null;
     }
 }
