@@ -2,7 +2,6 @@ package org.esgi.use_cases.member.application.command;
 
 import org.esgi.kernel.cqs.Command;
 import org.esgi.use_cases.member.application.AddressDTO;
-import org.esgi.use_cases.member.application.PaymentDTO;
 
 /**
  * Command object
@@ -17,7 +16,6 @@ public final class CreateMember implements Command {
     public final String     memberRole;
     public final AddressDTO address;
     public final String     mail;
-    public final PaymentDTO payment;
 
     public CreateMember(String lastname,
                         String firstname,
@@ -25,8 +23,7 @@ public final class CreateMember implements Command {
                         String password,
                         String memberRole,
                         AddressDTO address,
-                        String mail,
-                        PaymentDTO payment) {
+                        String mail) {
         this.lastname = lastname;
         this.firstname = firstname;
         this.login = login;
@@ -34,6 +31,5 @@ public final class CreateMember implements Command {
         this.memberRole = memberRole;
         this.address = address;
         this.mail = mail;
-        this.payment = payment;
     }
 }

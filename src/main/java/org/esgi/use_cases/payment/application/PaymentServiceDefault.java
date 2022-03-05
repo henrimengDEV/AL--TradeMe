@@ -2,17 +2,12 @@ package org.esgi.use_cases.payment.application;
 
 
 import org.esgi.kernel.annotations.Service;
-import org.esgi.kernel.event.DomainEvent;
-import org.esgi.kernel.event.EventDispatcher;
-import org.esgi.kernel.event.EventId;
 import org.esgi.use_cases.member.domain.MemberRepository;
 import org.esgi.use_cases.member.domain.model.Member;
 import org.esgi.use_cases.member.domain.model.MemberId;
 import org.esgi.use_cases.payment.domain.*;
-import org.esgi.use_cases.payment.domain.event.MemberSubscriptionConfirmedEvent;
 import org.esgi.use_cases.payment.domain.model.*;
 
-import java.time.ZonedDateTime;
 import java.util.Objects;
 import java.util.logging.Logger;
 
@@ -22,14 +17,11 @@ public class PaymentServiceDefault implements PaymentService {
 
     private final PaymentRepository            paymentRepository;
     private final MemberRepository             memberRepository;
-    private final EventDispatcher<DomainEvent> domainEventDispatcher;
 
     public PaymentServiceDefault(PaymentRepository paymentRepository,
-                                 MemberRepository memberRepository,
-                                 EventDispatcher<DomainEvent> domainEventDispatcher) {
+                                 MemberRepository memberRepository) {
         this.memberRepository = memberRepository;
         this.paymentRepository = paymentRepository;
-        this.domainEventDispatcher = domainEventDispatcher;
     }
 
     @Override
@@ -56,7 +48,7 @@ public class PaymentServiceDefault implements PaymentService {
         Payment payment       = paymentStrategy.pay(paymentToProceed);
         var     paymentResult = this.paymentRepository.add(payment);
 
-        domainEventDispatcher.dispatch(new MemberSubscriptionConfirmedEvent(EventId.create(), ZonedDateTime.now(), member, payment));
+        //domainEventDispatcher.dispatch(new MemberSubscriptionConfirmedEvent(EventId.create(), ZonedDateTime.now(), member, payment));
 
         return paymentResult.getPaymentId();
     }

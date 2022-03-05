@@ -13,6 +13,12 @@ public class AddressResponse {
         this.street = street;
         this.zipcode = zipcode;
     }
+    public AddressResponse() {
+        this.city = "Not defined";
+        this.country = "Not defined";
+        this.street = "Not defined";
+        this.zipcode = "Not defined";
+    }
 
     @Override
     public String toString() {

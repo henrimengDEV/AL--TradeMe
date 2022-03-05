@@ -28,8 +28,8 @@ public class MemberBuilder {
     }
 
     public MemberBuilder withAddress(Address address) {
-        if (address instanceof NoAddress)
-            throw new IllegalArgumentException("Address is required.");
+//        if (address instanceof NoAddress)
+//            throw new IllegalArgumentException("Address is required.");
         this.address = address;
         return this;
     }

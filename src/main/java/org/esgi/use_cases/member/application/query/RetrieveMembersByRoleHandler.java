@@ -19,13 +19,8 @@ public class RetrieveMembersByRoleHandler implements QueryHandler<RetrieveMember
 
     @Override
     public List<Member> handle(RetrieveMembersByRole query) {
-
-        System.out.println(query.role);
-        if (Arrays.stream(MemberRole.values()).anyMatch(value -> value.getRole().equals(query.role))) {
-
-            System.out.println(query.role + " MATCH");
+        if (Arrays.stream(MemberRole.values()).anyMatch(value -> value.getRole().equals(query.role)))
             return MemberRepository.findByRole(query.role);
-        }
         else
             throw new IllegalArgumentException("The role " + query.role + " doesn't exist");
     }

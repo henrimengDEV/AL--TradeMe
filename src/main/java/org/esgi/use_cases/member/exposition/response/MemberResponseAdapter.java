@@ -3,7 +3,11 @@ package org.esgi.use_cases.member.exposition.response;
 
 import org.esgi.kernel.Adapter;
 import org.esgi.use_cases.member.domain.model.Member;
+import org.esgi.use_cases.member.domain.model.NoAddress;
 
+import javax.enterprise.context.RequestScoped;
+
+@RequestScoped
 public class MemberResponseAdapter implements Adapter<Member, MemberResponse> {
 
     @Override
@@ -15,11 +19,13 @@ public class MemberResponseAdapter implements Adapter<Member, MemberResponse> {
                 source.getLogin(),
                 source.getMemberRole().toString(),
                 source.getMail(),
-                new AddressResponse(
-                        source.getAddress().city(),
-                        source.getAddress().country(),
-                        source.getAddress().street(),
-                        source.getAddress().zipCode()
+                source.getAddress() instanceof NoAddress
+                        ? new AddressResponse()
+                        : new AddressResponse(
+                                source.getAddress().city(),
+                                source.getAddress().country(),
+                                source.getAddress().street(),
+                                source.getAddress().zipCode()
                 ));
     }
 }

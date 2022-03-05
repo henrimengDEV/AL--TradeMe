@@ -13,16 +13,20 @@ public final class AddressFactory {
     }
 
     public static Address create(String city, String country, String street, String zipCode) {
-        Address address = AddressBuilder.create()
-                                                                                                                        .withCity(city)
-                                                                                                                        .withCountry(country)
-                                                                                                                        .withStreet(street)
-                                                                                                                        .withZipCode(zipCode)
-                                                                                                                        .build();
-        if (AddressValidator.getInstance().test(address))
-            return address;
+        if (city.isBlank() && country.isBlank() && street.isBlank() && zipCode.isBlank()) {
+            return new NoAddress();
+        } else {
+            Address address = AddressBuilder.create()
+                                            .withCity(city)
+                                            .withCountry(country)
+                                            .withStreet(street)
+                                            .withZipCode(zipCode)
+                                            .build();
+            if (AddressValidator.getInstance().test(address))
+                return address;
 
-        return new NoAddress();
+            return new NoAddress();
+        }
     }
 
     // Exemple

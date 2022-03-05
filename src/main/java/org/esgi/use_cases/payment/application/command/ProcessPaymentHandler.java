@@ -7,11 +7,11 @@ import org.esgi.use_cases.payment.domain.PaymentService;
 import org.esgi.use_cases.payment.domain.model.PaymentId;
 
 @Service
-public class ProcessPaymentCommandHandler implements CommandHandler<ProcessPayment, PaymentId> {
+public class ProcessPaymentHandler implements CommandHandler<ProcessPayment, PaymentId> {
 
     private final PaymentService paymentService;
 
-    public ProcessPaymentCommandHandler(PaymentService paymentService) {this.paymentService = paymentService;}
+    public ProcessPaymentHandler(PaymentService paymentService) {this.paymentService = paymentService;}
 
     @Override
     public PaymentId handle(ProcessPayment command) {
