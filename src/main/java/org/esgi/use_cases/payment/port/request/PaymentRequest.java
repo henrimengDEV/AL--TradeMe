@@ -1,4 +1,4 @@
-package org.esgi.use_cases.payment.exposition.request;
+package org.esgi.use_cases.payment.port.request;
 
 import javax.validation.constraints.NotBlank;
 

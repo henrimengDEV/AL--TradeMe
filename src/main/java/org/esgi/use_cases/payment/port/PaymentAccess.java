@@ -1,13 +1,14 @@
-package org.esgi.use_cases.projects.exposition;
+package org.esgi.use_cases.payment.port;
 
 import org.esgi.shared_kernel.cqs.CommandBus;
 import org.esgi.shared_kernel.cqs.QueryBus;
 
-public class ProjectsAccess {
-    public final CommandBus commandBus;
-    public final QueryBus queryBus;
+public class PaymentAccess {
 
-    public ProjectsAccess(CommandBus commandBus, QueryBus queryBus) {
+    public final CommandBus commandBus;
+    public final QueryBus   queryBus;
+
+    public PaymentAccess(CommandBus commandBus, QueryBus queryBus) {
         this.commandBus = commandBus;
         this.queryBus = queryBus;
     }

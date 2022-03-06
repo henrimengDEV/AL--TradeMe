@@ -1,4 +1,4 @@
-package org.esgi.use_cases.workflows.application;
+package org.esgi.use_cases.workflows.application.event;
 
 
 import org.esgi.shared_kernel.event.EventListener;
@@ -17,7 +17,7 @@ public class UnsubscribedMemberEventListener implements EventListener<Unsubscrib
     public void listenTo(UnsubscribedMemberEvent event) {
         notificationsByMail.send(
                 event.getMemberMail(),
-                "Contractor are waiting you " + event.getMemberLogin() +
+                "New projects are waiting you !" + event.getMemberLogin() +
                 " ! \n You can subscribe back with this exclusive offer of -35% ");
     }
 }

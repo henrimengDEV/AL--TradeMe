@@ -1,5 +1,9 @@
 package org.esgi.use_cases.member.domain.model;
 
+import org.esgi.use_cases.projects.domain.ProjectId;
+
+import java.util.List;
+
 public interface Member {
 
     String getLastname();
@@ -24,4 +28,5 @@ public interface Member {
 
     void changeIsSubscribed(boolean isSubscribed);
 
+    List<ProjectId> getProjects();
 }

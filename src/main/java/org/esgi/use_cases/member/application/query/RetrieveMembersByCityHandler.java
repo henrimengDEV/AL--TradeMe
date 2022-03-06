@@ -26,7 +26,7 @@ public class RetrieveMembersByCityHandler implements QueryHandler<RetrieveMember
     public MembersResponse handle(RetrieveMembersByCity query) {
         List<Member> members = MemberRepository.findByCity(query.city);
         return new MembersResponse(members.stream()
-                                          .map(memberResponseAdapter::adapt)
+                                          .map(memberResponseAdapter::adaptWithAddress)
                                           .collect(Collectors.toList())
         );
     }

@@ -1,5 +1,7 @@
 package org.esgi.use_cases.projects.domain;
 
+import org.esgi.use_cases.member.domain.model.MemberId;
+
 import java.util.List;
 
 public interface ProjectsRepository {
@@ -13,4 +15,6 @@ public interface ProjectsRepository {
     List<Project> findAll();
 
     Project findById(ProjectId projectId);
+
+    List<Project> findByMemberId(MemberId memberId);
 }

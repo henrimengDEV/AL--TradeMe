@@ -1,50 +1,27 @@
 package org.esgi.engines;
 
 import org.esgi.shared_kernel.exceptions.RegulatedException;
-import org.esgi.use_cases.member.domain.model.MemberRole;
 import org.esgi.use_cases.member.port.response.MemberResponse;
-import org.esgi.use_cases.payment.exposition.response.PaymentResponse;
-import org.esgi.use_cases.projects.domain.Project;
+import org.esgi.use_cases.payment.port.response.PaymentResponse;
+import org.esgi.use_cases.projects.port.response.ProjectsResponse;
 import org.esgi.use_cases.regulations.application.command.CreateMemberRegulation;
 import org.esgi.use_cases.regulations.application.command.RegulateUnsubscribedTradesman;
 import org.esgi.use_cases.regulations.domain.RegulationId;
-import org.esgi.use_cases.regulations.exposition.RegulationsAccess;
+import org.esgi.use_cases.regulations.port.RegulationsAccess;
 
-import javax.enterprise.context.ApplicationScoped;
-
-@ApplicationScoped
 public class RegulationsEngine {
 
     private final RegulationsAccess regulationsAccess;
 
     public RegulationsEngine(RegulationsAccess regulationsAccess) {this.regulationsAccess = regulationsAccess;}
 
-
-    void evaluateAddMember(MemberResponse member, PaymentResponse paymentResponse) {
-        RegulationId regulationId;
-        String regulationDescription = "";
-        boolean isRegulated = false;
-
-        if (!member.isSubscribed){
-            regulationDescription = "Something went wrong with payment.";
-            isRegulated = true;
-        }
-
-        if (isRegulated){
-            regulationId = regulationsAccess.commandBus.send(new CreateMemberRegulation(
-                    member.id,
-                    regulationDescription)
-            );
-            throw new RegulatedException(regulationDescription + " RegulationId=" + regulationId);
-        }
-    }
-    void evaluateRequestTradesman(MemberResponse member, Project project) {
+    public void evaluateAddMember(MemberResponse member, PaymentResponse paymentResponse) {
         RegulationId regulationId;
         String regulationDescription = "";
         boolean isRegulated = false;
 
         if (!member.isSubscribed) {
-            regulationDescription = "Tradesman has no active membership when requested by contractor.";
+            regulationDescription = "Tradesman has no active membership.";
             regulationId = regulationsAccess.commandBus.send(new RegulateUnsubscribedTradesman(
                     member.id,
                     regulationDescription,
@@ -54,22 +31,44 @@ public class RegulationsEngine {
             isRegulated = true;
         }
 
-        if (!member.role.equals(MemberRole.TRADESMAN.getValue())) {
-            regulationDescription = "The requested member isn't a Tradesman.";
+        if (!paymentResponse.done){
+            regulationDescription = "Something went wrong with payment.";
             isRegulated = true;
         }
 
-        if (project.getParticipants().contains(member.id)) {
-            regulationDescription = "Tradesman is already in this project.";
+        if(member.lastname.equals("lol")){
+            regulationDescription = "Lastname can't be a joke. lol. Change it soon or your account will be deleted";
             isRegulated = true;
         }
 
-        if (isRegulated) {
+        if (isRegulated){
             regulationId = regulationsAccess.commandBus.send(new CreateMemberRegulation(
                     member.id,
                     regulationDescription)
             );
-            throw new RegulatedException(regulationDescription + " RegulationId=" + regulationId);
+            throw new RegulatedException(regulationDescription + " RegulationId=" + regulationId.getValue());
+        }
+    }
+    public void evaluateRequestTradesman(ProjectsResponse projectsOfMemberResponse,
+                                         Integer contractorProjectId,
+                                         Integer memberId) {
+        RegulationId regulationId;
+        String regulationDescription = "";
+        boolean isRegulated = false;
+
+        if (projectsOfMemberResponse.projectResponses.stream().anyMatch(project -> project.projectId.equals(contractorProjectId))) {
+            regulationDescription = "Tradesman is already in this project.";
+            isRegulated = true;
+        }
+
+        //todo if sur les dates
+
+        if (isRegulated) {
+            regulationId = regulationsAccess.commandBus.send(new CreateMemberRegulation(
+                    memberId,
+                    regulationDescription)
+            );
+            throw new RegulatedException(regulationDescription + " RegulationId=" + regulationId.getValue());
         }
 
     }

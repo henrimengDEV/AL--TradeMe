@@ -24,7 +24,7 @@ public class RetrieveMembersHandler implements QueryHandler<RetrieveMembers, Mem
     public MembersResponse handle(RetrieveMembers query) {
         List<Member> members = MemberRepository.findAll();
         return new MembersResponse(members.stream()
-                                          .map(memberResponseAdapter::adapt)
+                                          .map(memberResponseAdapter::adaptWithAddress)
                                           .collect(Collectors.toList())
         );
     }

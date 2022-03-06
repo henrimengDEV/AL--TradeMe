@@ -1,12 +1,11 @@
 package org.esgi.controllers;
 
+import org.esgi.engines.RegulationsEngine;
 import org.esgi.shared_kernel.annotations.Controller;
-import org.esgi.use_cases.member.application.query.RetrieveMemberById;
-import org.esgi.use_cases.member.domain.model.Member;
 import org.esgi.use_cases.member.port.MemberAccess;
-import org.esgi.use_cases.projects.application.query.RetrieveProjectById;
-import org.esgi.use_cases.projects.domain.Project;
-import org.esgi.use_cases.projects.exposition.ProjectsAccess;
+import org.esgi.use_cases.projects.application.query.RetrieveProjectsByMemberId;
+import org.esgi.use_cases.projects.port.ProjectsAccess;
+import org.esgi.use_cases.projects.port.response.ProjectsResponse;
 import org.esgi.use_cases.workflows.exposition.WorkflowsAccess;
 
 import javax.enterprise.context.ApplicationScoped;
@@ -22,18 +21,21 @@ import java.util.logging.Logger;
 @ApplicationScoped
 @Path("/market")
 public class MarketManager {
-    private static final Logger LOGGER = Logger.getLogger(MembershipManager.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(MarketManager.class.getName());
 
-    private final WorkflowsAccess workflowsAccess;
-    private final ProjectsAccess  projectsAccess;
-    private final MemberAccess    memberAccess;
+    private final WorkflowsAccess   workflowsAccess;
+    private final ProjectsAccess    projectsAccess;
+    private final MemberAccess      memberAccess;
+    private final RegulationsEngine regulationsEngine;
 
     public MarketManager(WorkflowsAccess workflowsAccess,
                          ProjectsAccess projectsAccess,
-                         MemberAccess memberAccess) {
+                         MemberAccess memberAccess,
+                         RegulationsEngine regulationsEngine) {
         this.workflowsAccess = workflowsAccess;
         this.projectsAccess = projectsAccess;
         this.memberAccess = memberAccess;
+        this.regulationsEngine = regulationsEngine;
     }
 
     @POST
@@ -44,12 +46,12 @@ public class MarketManager {
                                      @Valid @NotNull @QueryParam("projectId") Integer projectId) {
         LOGGER.info("Requesting Tradesman" + "\n");
 
-        Member  member  = memberAccess.queryBus.send(new RetrieveMemberById(memberId));
-        Project project = projectsAccess.queryBus.send(new RetrieveProjectById(projectId));
+        ProjectsResponse projectsOfMemberResponse = projectsAccess.queryBus.send(new RetrieveProjectsByMemberId(memberId));
 
-        //Regulation engine check if this member can be requested for this project
+        regulationsEngine.evaluateRequestTradesman(projectsOfMemberResponse, projectId, memberId);
 
 
-        return Response.created(URI.create("/market/")).build();
+
+        return Response.created(URI.create("/member/"+memberId)).build();
     }
 }

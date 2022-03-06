@@ -1,6 +1,6 @@
 package org.esgi.use_cases.member.port.request;
 
-import org.esgi.use_cases.payment.exposition.request.PaymentRequest;
+import org.esgi.use_cases.payment.port.request.PaymentRequest;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;

@@ -1,6 +1,9 @@
 package org.esgi.use_cases.member.domain.model;
 
 
+import org.esgi.use_cases.projects.domain.ProjectId;
+
+import java.util.List;
 import java.util.Objects;
 
 public class DefaultMember implements Member {
@@ -12,7 +15,8 @@ public class DefaultMember implements Member {
     private       Address    address;
     private final MemberRole memberRole;
     private final String     mail;
-    private boolean isSubscribed;
+    private boolean         isSubscribed;
+    private List<ProjectId> projects;
 
     private DefaultMember(String lastname,
                          String firstname,
@@ -22,6 +26,7 @@ public class DefaultMember implements Member {
                          Address address,
                          MemberRole memberRole,
                          String mail,
+                          List<ProjectId> projects,
                           Boolean isSubscribed) {
         this.lastname = lastname;
         this.firstname = firstname;
@@ -35,8 +40,8 @@ public class DefaultMember implements Member {
     }
 
     public static DefaultMember of(String lastname, String firstname, String login, MemberId memberId, String password,
-                                   Address address, MemberRole memberRole, String mail, Boolean isSubscribed) {
-        return new DefaultMember(lastname, firstname, login, memberId, password, address, memberRole, mail, isSubscribed);
+                                   Address address, MemberRole memberRole, String mail, List<ProjectId> projects, Boolean isSubscribed) {
+        return new DefaultMember(lastname, firstname, login, memberId, password, address, memberRole, mail, projects, isSubscribed);
     }
 
     @Override
@@ -92,6 +97,11 @@ public class DefaultMember implements Member {
     @Override
     public void changeIsSubscribed(boolean isSubscribed) {
         this.isSubscribed = isSubscribed;
+    }
+
+    @Override
+    public List<ProjectId> getProjects() {
+        return projects;
     }
 
     @Override

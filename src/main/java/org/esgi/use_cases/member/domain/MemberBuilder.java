@@ -1,7 +1,13 @@
 package org.esgi.use_cases.member.domain;
 
 
-import org.esgi.use_cases.member.domain.model.*;
+import org.esgi.use_cases.member.domain.model.Address;
+import org.esgi.use_cases.member.domain.model.DefaultMember;
+import org.esgi.use_cases.member.domain.model.MemberId;
+import org.esgi.use_cases.member.domain.model.MemberRole;
+import org.esgi.use_cases.projects.domain.ProjectId;
+
+import java.util.List;
 
 public class MemberBuilder {
     private String     lastname;
@@ -12,7 +18,8 @@ public class MemberBuilder {
     private Address    address;
     private MemberRole memberRole;
     private String     mail;
-    private boolean isSubscribed;
+    private boolean         isSubscribed;
+    private List<ProjectId> projects;
 
     public static MemberBuilder builder() {
         return new MemberBuilder();
@@ -62,6 +69,10 @@ public class MemberBuilder {
         this.isSubscribed = isSubscribed;
         return this;
     }
+    public MemberBuilder withProjects(List<ProjectId> projects) {
+        this.projects = projects;
+        return this;
+    }
 
     public DefaultMember build() {
         return DefaultMember.of(
@@ -73,6 +84,7 @@ public class MemberBuilder {
                 address,
                 memberRole,
                 mail,
+                projects,
                 isSubscribed);
     }
 

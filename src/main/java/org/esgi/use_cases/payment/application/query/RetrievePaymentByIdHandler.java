@@ -5,8 +5,8 @@ import org.esgi.shared_kernel.cqs.QueryHandler;
 import org.esgi.use_cases.payment.domain.PaymentRepository;
 import org.esgi.use_cases.payment.domain.model.Payment;
 import org.esgi.use_cases.payment.domain.model.PaymentId;
-import org.esgi.use_cases.payment.exposition.response.PaymentResponse;
-import org.esgi.use_cases.payment.exposition.response.PaymentResponseAdapter;
+import org.esgi.use_cases.payment.port.response.PaymentResponse;
+import org.esgi.use_cases.payment.port.response.PaymentResponseAdapter;
 
 public class RetrievePaymentByIdHandler implements QueryHandler<RetrievePaymentById, PaymentResponse> {
 

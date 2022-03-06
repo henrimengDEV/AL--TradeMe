@@ -15,10 +15,11 @@ import org.esgi.use_cases.payment.application.query.RetrievePaymentByMemberId;
 import org.esgi.use_cases.payment.application.query.RetrievePaymentByMemberIdHandler;
 import org.esgi.use_cases.payment.domain.PaymentRepository;
 import org.esgi.use_cases.payment.domain.PaymentService;
-import org.esgi.use_cases.payment.exposition.response.PaymentResponseAdapter;
+import org.esgi.use_cases.payment.port.response.PaymentResponseAdapter;
 import org.esgi.use_cases.payment.infrastructure.InMemoryPaymentRepository;
 
 import javax.enterprise.context.Dependent;
+import javax.enterprise.context.RequestScoped;
 import javax.inject.Singleton;
 import java.util.HashMap;
 import java.util.Map;
@@ -26,13 +27,13 @@ import java.util.Map;
 @Configuration
 @Dependent
 public class PaymentConfiguration {
-
     private final ApplicationConfiguration appConfiguration;
 
     public PaymentConfiguration(ApplicationConfiguration appConfiguration) {this.appConfiguration = appConfiguration;}
 
+
     //Command bus
-    @Singleton
+    @RequestScoped
     public CommandBus commandBus() {
         final Map<Class<? extends Command>, CommandHandler> commandHandlerMap = new HashMap<>();
         commandHandlerMap.put(ProcessPayment.class, new ProcessPaymentHandler(paymentService()));
@@ -40,7 +41,7 @@ public class PaymentConfiguration {
     }
 
     //Query bus
-    @Singleton
+    @RequestScoped
     public QueryBus queryBus() {
         final Map<Class<? extends Query>, QueryHandler> queryHandlerMap = new HashMap<>();
         queryHandlerMap.put(RetrievePaymentById.class, new RetrievePaymentByIdHandler(paymentRepository(), paymentResponseAdapter()));
@@ -64,7 +65,7 @@ public class PaymentConfiguration {
     }
 
     //Adapter
-    @Singleton
+    @RequestScoped
     private PaymentResponseAdapter paymentResponseAdapter() {
         return new PaymentResponseAdapter();
     }

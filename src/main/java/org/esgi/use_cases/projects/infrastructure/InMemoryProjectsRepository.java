@@ -1,6 +1,7 @@
 package org.esgi.use_cases.projects.infrastructure;
 
 import org.esgi.shared_kernel.exceptions.NoSuchEntityException;
+import org.esgi.use_cases.member.domain.model.MemberId;
 import org.esgi.use_cases.projects.domain.Project;
 import org.esgi.use_cases.projects.domain.ProjectId;
 import org.esgi.use_cases.projects.domain.ProjectsRepository;
@@ -57,6 +58,11 @@ public final class InMemoryProjectsRepository implements ProjectsRepository {
             throw new NoSuchEntityException("No project for " + projectId.getValue());
         }
         return project;
+    }
+
+    @Override
+    public List<Project> findByMemberId(MemberId memberId) {
+        return data.values().stream().filter(project -> project.getParticipants().contains(memberId)).collect(Collectors.toList());
     }
 
 }

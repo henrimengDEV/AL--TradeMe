@@ -25,7 +25,7 @@ public class PaypalPaymentStrategy implements PaymentStrategy {
             e.printStackTrace();
         }
         payment.done();
-
+        LOGGER.info("TransactionId : " + payment.getTransactionId() + " confirmed\n");
         return payment;
     }
 }

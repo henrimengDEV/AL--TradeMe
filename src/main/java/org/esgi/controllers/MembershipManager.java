@@ -1,5 +1,6 @@
 package org.esgi.controllers;
 
+import org.esgi.engines.RegulationsEngine;
 import org.esgi.shared_kernel.annotations.Controller;
 import org.esgi.use_cases.member.application.AddressDTO;
 import org.esgi.use_cases.member.application.command.ChangeMemberSubscriptionStatus;
@@ -12,12 +13,13 @@ import org.esgi.use_cases.member.domain.model.MemberId;
 import org.esgi.use_cases.member.port.MemberAccess;
 import org.esgi.use_cases.member.port.request.MemberRequest;
 import org.esgi.use_cases.member.port.response.MemberResponse;
+import org.esgi.use_cases.member.port.response.MemberWithAddressResponse;
 import org.esgi.use_cases.member.port.response.MembersResponse;
 import org.esgi.use_cases.payment.application.command.ProcessPayment;
 import org.esgi.use_cases.payment.application.query.RetrievePaymentById;
 import org.esgi.use_cases.payment.domain.model.PaymentId;
-import org.esgi.use_cases.payment.exposition.PaymentAccess;
-import org.esgi.use_cases.payment.exposition.response.PaymentResponse;
+import org.esgi.use_cases.payment.port.PaymentAccess;
+import org.esgi.use_cases.payment.port.response.PaymentResponse;
 import org.esgi.use_cases.workflows.application.command.ProcessNewMember;
 import org.esgi.use_cases.workflows.exposition.WorkflowsAccess;
 
@@ -35,17 +37,21 @@ import java.util.logging.Logger;
 @ApplicationScoped
 @Path("/membership")
 public class MembershipManager {
-    private static final Logger          LOGGER = Logger.getLogger(MembershipManager.class.getName());
-    private final        MemberAccess    memberAccess;
-    private final        PaymentAccess   paymentAccess;
-    private final        WorkflowsAccess workflowsAccess;
+    private static final Logger LOGGER = Logger.getLogger(MembershipManager.class.getName());
+
+    private final MemberAccess      memberAccess;
+    private final PaymentAccess     paymentAccess;
+    private final WorkflowsAccess   workflowsAccess;
+    private final RegulationsEngine regulationsEngine;
 
     public MembershipManager(MemberAccess memberAccess,
                              PaymentAccess paymentAccess,
-                             WorkflowsAccess workflowsAccess) {
+                             WorkflowsAccess workflowsAccess,
+                             RegulationsEngine regulationsEngine) {
         this.memberAccess = memberAccess;
         this.paymentAccess = paymentAccess;
         this.workflowsAccess = workflowsAccess;
+        this.regulationsEngine = regulationsEngine;
     }
 
     @POST
@@ -54,6 +60,7 @@ public class MembershipManager {
     @Path("/register")
     public Response register(@Valid MemberRequest request) {
         LOGGER.info("Registering Member" + "\n");
+
         CreateMember createMember = new CreateMember(
                 request.lastname,
                 request.firstname,
@@ -77,10 +84,12 @@ public class MembershipManager {
         );
         PaymentId paymentId = paymentAccess.commandBus.send(processPayment);
 
-        memberAccess.commandBus.send(new ChangeMemberSubscriptionStatus(memberId.getValue(), true));
-
-        MemberResponse  memberResponse  = memberAccess.queryBus.send(new RetrieveMemberById(memberId.getValue()));
         PaymentResponse paymentResponse = paymentAccess.queryBus.send(new RetrievePaymentById(paymentId.getValue()));
+        if (paymentResponse.done) {
+            memberAccess.commandBus.send(new ChangeMemberSubscriptionStatus(memberId.getValue(), true));
+        }
+        MemberResponse memberResponse = memberAccess.queryBus.send(new RetrieveMemberById(memberId.getValue()));
+
         ProcessNewMember processNewMember = new ProcessNewMember(
                 memberId.getValue(),
                 paymentId.getValue(),
@@ -89,6 +98,8 @@ public class MembershipManager {
                 paymentResponse.price,
                 memberResponse.login);
         workflowsAccess.commandBus.send(processNewMember);
+
+        regulationsEngine.evaluateAddMember(memberResponse, paymentResponse);
 
         return Response.created(URI.create("/membership/" + memberId.getValue())).build();
     }
@@ -114,7 +125,7 @@ public class MembershipManager {
     @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})
     @Path("/{id}")
     public Response getById(@Valid @NotNull @PathParam("id") int id) {
-        final MemberResponse memberResponse = memberAccess.queryBus.send(new RetrieveMemberById(id));
+        final MemberWithAddressResponse memberResponse = memberAccess.queryBus.send(new RetrieveMemberById(id));
         return Response.ok(memberResponse).build();
     }
 

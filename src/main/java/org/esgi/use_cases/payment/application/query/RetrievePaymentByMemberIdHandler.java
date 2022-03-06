@@ -5,8 +5,8 @@ import org.esgi.shared_kernel.cqs.QueryHandler;
 import org.esgi.use_cases.member.domain.model.MemberId;
 import org.esgi.use_cases.payment.domain.PaymentRepository;
 import org.esgi.use_cases.payment.domain.model.Payment;
-import org.esgi.use_cases.payment.exposition.response.PaymentResponseAdapter;
-import org.esgi.use_cases.payment.exposition.response.PaymentsResponse;
+import org.esgi.use_cases.payment.port.response.PaymentResponseAdapter;
+import org.esgi.use_cases.payment.port.response.PaymentsResponse;
 
 import java.util.List;
 import java.util.stream.Collectors;
