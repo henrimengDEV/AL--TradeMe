@@ -1,4 +1,4 @@
-package org.esgi.use_cases.workflows.application;
+package org.esgi.use_cases.workflows.application.event;
 
 
 import org.esgi.shared_kernel.event.EventListener;

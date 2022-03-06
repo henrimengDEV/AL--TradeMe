@@ -18,10 +18,7 @@ import java.util.Map;
 @Configuration
 @Dependent
 public class WorkflowsConfiguration {
-
-    private final ApplicationConfiguration appConfiguration;
-
-    public WorkflowsConfiguration(ApplicationConfiguration appConfiguration) {this.appConfiguration = appConfiguration;}
+    private ApplicationConfiguration appConfiguration;
 
     //Command bus
     @Singleton

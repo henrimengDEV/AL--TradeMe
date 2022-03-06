@@ -26,10 +26,8 @@ import java.util.Map;
 @Configuration
 @Dependent
 public class PaymentConfiguration {
+    private ApplicationConfiguration appConfiguration;
 
-    private final ApplicationConfiguration appConfiguration;
-
-    public PaymentConfiguration(ApplicationConfiguration appConfiguration) {this.appConfiguration = appConfiguration;}
 
     //Command bus
     @Singleton

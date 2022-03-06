@@ -21,10 +21,7 @@ import java.util.Map;
 @Configuration
 @Dependent
 public class MemberConfiguration {
-
-    private final ApplicationConfiguration appConfiguration;
-
-    public MemberConfiguration(ApplicationConfiguration appConfiguration) {this.appConfiguration = appConfiguration;}
+    private ApplicationConfiguration appConfiguration;
 
     //Command bus
     @Singleton

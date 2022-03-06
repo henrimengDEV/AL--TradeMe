@@ -1,19 +1,20 @@
 package org.esgi.use_cases.projects;
 
 import org.esgi.ApplicationConfiguration;
+import org.esgi.shared_kernel.annotations.Configuration;
 import org.esgi.shared_kernel.cqs.*;
 import org.esgi.use_cases.projects.domain.ProjectsRepository;
 import org.esgi.use_cases.projects.infrastructure.InMemoryProjectsRepository;
 
+import javax.enterprise.context.Dependent;
 import javax.inject.Singleton;
 import java.util.HashMap;
 import java.util.Map;
 
+@Configuration
+@Dependent
 public class ProjectsConfiguration {
-
-    private final ApplicationConfiguration appConfiguration;
-
-    public ProjectsConfiguration(ApplicationConfiguration appConfiguration) {this.appConfiguration = appConfiguration;}
+    private  ApplicationConfiguration appConfiguration;
 
     //Command bus
     @Singleton

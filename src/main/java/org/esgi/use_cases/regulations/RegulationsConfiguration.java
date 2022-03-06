@@ -1,21 +1,22 @@
 package org.esgi.use_cases.regulations;
 
 import org.esgi.ApplicationConfiguration;
+import org.esgi.shared_kernel.annotations.Configuration;
 import org.esgi.shared_kernel.cqs.*;
 import org.esgi.use_cases.regulations.application.command.RegulateUnsubscribedTradesman;
 import org.esgi.use_cases.regulations.application.command.RegulateUnsubscribedTradesmanHandler;
 import org.esgi.use_cases.regulations.domain.RegulationsRepository;
 import org.esgi.use_cases.regulations.infrastructure.InMemoryRegulationsRepository;
 
+import javax.enterprise.context.Dependent;
 import javax.inject.Singleton;
 import java.util.HashMap;
 import java.util.Map;
 
+@Configuration
+@Dependent
 public class RegulationsConfiguration {
-
-    private final ApplicationConfiguration appConfiguration;
-
-    public RegulationsConfiguration(ApplicationConfiguration appConfiguration) {this.appConfiguration = appConfiguration;}
+    private ApplicationConfiguration appConfiguration;
 
     //Command bus
     @Singleton

@@ -12,11 +12,14 @@ import org.esgi.use_cases.payment.exposition.PaymentAccess;
 import org.esgi.use_cases.projects.ProjectsConfiguration;
 import org.esgi.use_cases.projects.exposition.ProjectsAccess;
 import org.esgi.use_cases.regulations.RegulationsConfiguration;
+import org.esgi.use_cases.regulations.domain.event.UnsubscribedMemberEvent;
 import org.esgi.use_cases.regulations.exposition.RegulationsAccess;
 import org.esgi.use_cases.workflows.WorkflowsConfiguration;
 import org.esgi.use_cases.workflows.application.event.MemberCreatedEventListener;
+import org.esgi.use_cases.workflows.application.event.UnsubscribedMemberEventListener;
 import org.esgi.use_cases.workflows.exposition.WorkflowsAccess;
 
+import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Singleton;
 import java.util.HashMap;
 import java.util.List;
@@ -24,25 +27,14 @@ import java.util.Map;
 
 @Configuration
 @Startup
+@ApplicationScoped
 public class ApplicationConfiguration {
 
-    private final MemberConfiguration      memberConfiguration;
-    private final PaymentConfiguration     paymentConfiguration;
-    private final WorkflowsConfiguration   workflowsConfiguration;
-    private final ProjectsConfiguration    projectsConfiguration;
-    private final RegulationsConfiguration regulationsConfiguration;
-
-    public ApplicationConfiguration(MemberConfiguration memberConfiguration,
-                                    PaymentConfiguration paymentConfiguration,
-                                    WorkflowsConfiguration workflowsConfiguration,
-                                    ProjectsConfiguration projectsConfiguration,
-                                    RegulationsConfiguration regulationsConfiguration) {
-        this.memberConfiguration = memberConfiguration;
-        this.paymentConfiguration = paymentConfiguration;
-        this.workflowsConfiguration = workflowsConfiguration;
-        this.projectsConfiguration = projectsConfiguration;
-        this.regulationsConfiguration = regulationsConfiguration;
-    }
+    private MemberConfiguration      memberConfiguration;
+    private PaymentConfiguration     paymentConfiguration;
+    private WorkflowsConfiguration   workflowsConfiguration;
+    private ProjectsConfiguration    projectsConfiguration;
+    private RegulationsConfiguration regulationsConfiguration;
 
     //Application event bus
     @Singleton
@@ -56,10 +48,11 @@ public class ApplicationConfiguration {
     public EventDispatcher<DomainEvent> domainEventDispatcher() {
         final Map<Class<? extends Event>, List<EventListener<? extends Event>>> listenerMap = new HashMap<>();
         listenerMap.put(MemberCreatedEvent.class, List.of(new MemberCreatedEventListener(workflowsConfiguration.notificationsByMail())));
+        listenerMap.put(UnsubscribedMemberEvent.class, List.of(new UnsubscribedMemberEventListener(workflowsConfiguration.notificationsByMail())));
         return new DefaultEventDispatcher(listenerMap);
     }
 
-    // Ressource Access
+    //Ressources Access
     @Singleton
     public MemberAccess memberAccess() {
         return new MemberAccess(memberConfiguration.commandBus(), memberConfiguration.queryBus(), memberConfiguration.memberResponseAdapter());
