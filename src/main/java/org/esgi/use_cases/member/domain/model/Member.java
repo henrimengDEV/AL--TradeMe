@@ -16,12 +16,12 @@ public interface Member {
 
     String getMail();
 
-    String toString();
-
-    String toStringWithAddress();
+    Boolean isSubscribed();
 
     void addMemberId(int id);
 
     void changeAddress(Address address);
+
+    void changeIsSubscribed(boolean isSubscribed);
 
 }

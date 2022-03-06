@@ -1,6 +1,6 @@
 package org.esgi.use_cases.contractor.infrastructure;
 
-import org.esgi.kernel.annotations.RepositoryImpl;
+import org.esgi.shared_kernel.annotations.RepositoryImpl;
 import org.esgi.use_cases.contractor.domain.Contractor;
 import org.esgi.use_cases.contractor.domain.ContractorId;
 import org.esgi.use_cases.contractor.domain.Contractors;

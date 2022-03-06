@@ -1,7 +1,7 @@
 package org.esgi.use_cases.member.domain;
 
 
-import org.esgi.kernel.annotations.Pattern;
+import org.esgi.shared_kernel.annotations.Pattern;
 import org.esgi.use_cases.member.domain.model.Address;
 import org.esgi.use_cases.member.domain.model.NoAddress;
 
@@ -13,16 +13,20 @@ public final class AddressFactory {
     }
 
     public static Address create(String city, String country, String street, String zipCode) {
-        Address address = AddressBuilder.create()
-                                                                                                                        .withCity(city)
-                                                                                                                        .withCountry(country)
-                                                                                                                        .withStreet(street)
-                                                                                                                        .withZipCode(zipCode)
-                                                                                                                        .build();
-        if (AddressValidator.getInstance().test(address))
-            return address;
+        if (city.isBlank() && country.isBlank() && street.isBlank() && zipCode.isBlank()) {
+            return new NoAddress();
+        } else {
+            Address address = AddressBuilder.create()
+                                            .withCity(city)
+                                            .withCountry(country)
+                                            .withStreet(street)
+                                            .withZipCode(zipCode)
+                                            .build();
+            if (AddressValidator.getInstance().test(address))
+                return address;
 
-        return new NoAddress();
+            return new NoAddress();
+        }
     }
 
     // Exemple

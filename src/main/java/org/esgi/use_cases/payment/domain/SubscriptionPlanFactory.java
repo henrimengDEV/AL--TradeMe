@@ -1,7 +1,7 @@
 package org.esgi.use_cases.payment.domain;
 
-import org.esgi.kernel.annotations.Pattern;
-import org.esgi.kernel.exceptions.NotValidAttributeException;
+import org.esgi.shared_kernel.annotations.Pattern;
+import org.esgi.shared_kernel.exceptions.NotValidAttributeException;
 import org.esgi.use_cases.payment.domain.model.MonthlySubscriptionPlan;
 import org.esgi.use_cases.payment.domain.model.SubscriptionPlan;
 import org.esgi.use_cases.payment.domain.model.SubscriptionType;

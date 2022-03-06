@@ -1,6 +1,6 @@
 package org.esgi.use_cases.contractor.application.query;
 
-import org.esgi.kernel.cqs.QueryHandler;
+import org.esgi.shared_kernel.cqs.QueryHandler;
 
 public class MyQueryHandler implements QueryHandler<MyQuery, Void> {
     

@@ -10,7 +10,7 @@ public enum SubscriptionType {
         this.subscriptionType = subscriptionType;
     }
 
-    public String getSubscriptionType() {
+    public String getValue() {
         return this.subscriptionType;
     }
 

@@ -11,7 +11,7 @@ public enum DeviseType {
         this.deviseType = deviseType;
     }
 
-    public String getDeviseType() {
+    public String getValue() {
         return this.deviseType;
     }
 

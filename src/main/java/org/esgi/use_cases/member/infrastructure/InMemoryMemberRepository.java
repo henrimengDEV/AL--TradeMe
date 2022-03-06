@@ -1,7 +1,7 @@
 package org.esgi.use_cases.member.infrastructure;
 
 
-import org.esgi.kernel.exceptions.NoSuchEntityException;
+import org.esgi.shared_kernel.exceptions.NoSuchEntityException;
 import org.esgi.use_cases.member.domain.MemberRepository;
 import org.esgi.use_cases.member.domain.model.Member;
 import org.esgi.use_cases.member.domain.model.MemberId;
@@ -76,7 +76,7 @@ public final class InMemoryMemberRepository implements MemberRepository {
     public List<Member> findByRole(String role) {
         List<Member> members = data.values()
                                  .stream()
-                                 .filter(member -> member.getMemberRole().getRole().equalsIgnoreCase(role))
+                                 .filter(member -> member.getMemberRole().getValue().equalsIgnoreCase(role))
                                  .collect(Collectors.toList());
         if (members.isEmpty()) {
             throw new NoSuchEntityException("no members for role " + role);

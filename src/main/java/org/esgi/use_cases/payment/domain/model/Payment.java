@@ -23,7 +23,4 @@ public interface Payment {
     boolean isDone();
 
 
-
-
-
 }

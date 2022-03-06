@@ -5,13 +5,14 @@ import org.esgi.use_cases.member.domain.model.*;
 
 public class MemberBuilder {
     private String     lastname;
-    private String   firstname;
-    private MemberId memberId;
-    private String   login;
+    private String     firstname;
+    private MemberId   memberId;
+    private String     login;
     private String     password;
     private Address    address;
     private MemberRole memberRole;
     private String     mail;
+    private boolean isSubscribed;
 
     public static MemberBuilder builder() {
         return new MemberBuilder();
@@ -28,8 +29,6 @@ public class MemberBuilder {
     }
 
     public MemberBuilder withAddress(Address address) {
-        if (address instanceof NoAddress)
-            throw new IllegalArgumentException("Address is required.");
         this.address = address;
         return this;
     }
@@ -59,6 +58,11 @@ public class MemberBuilder {
         return this;
     }
 
+    public MemberBuilder withIsSubscribed(boolean isSubscribed) {
+        this.isSubscribed = isSubscribed;
+        return this;
+    }
+
     public DefaultMember build() {
         return DefaultMember.of(
                 lastname,
@@ -68,7 +72,8 @@ public class MemberBuilder {
                 password,
                 address,
                 memberRole,
-                mail);
+                mail,
+                isSubscribed);
     }
 
 
