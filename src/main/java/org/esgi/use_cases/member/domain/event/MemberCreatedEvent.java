@@ -1,7 +1,7 @@
 package org.esgi.use_cases.member.domain.event;
 
-import org.esgi.kernel.event.DomainEvent;
-import org.esgi.kernel.event.EventId;
+import org.esgi.shared_kernel.event.DomainEvent;
+import org.esgi.shared_kernel.event.EventId;
 
 import java.time.ZonedDateTime;
 

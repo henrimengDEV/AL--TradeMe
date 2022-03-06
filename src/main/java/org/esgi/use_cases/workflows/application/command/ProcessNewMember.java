@@ -1,6 +1,6 @@
 package org.esgi.use_cases.workflows.application.command;
 
-import org.esgi.kernel.cqs.Command;
+import org.esgi.shared_kernel.cqs.Command;
 
 public class ProcessNewMember implements Command {
     public final Integer memberId;

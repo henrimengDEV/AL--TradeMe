@@ -1,6 +1,6 @@
 package org.esgi.use_cases.workflows.application.command;
 
-import org.esgi.kernel.cqs.CommandHandler;
+import org.esgi.shared_kernel.cqs.CommandHandler;
 import org.esgi.use_cases.member.domain.model.MemberId;
 import org.esgi.use_cases.payment.domain.model.PaymentId;
 import org.esgi.use_cases.workflows.domain.PaymentWorkflows;

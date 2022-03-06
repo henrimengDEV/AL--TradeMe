@@ -1,14 +1,18 @@
 package org.esgi;
 
 import io.quarkus.runtime.Startup;
-import org.esgi.kernel.annotations.Configuration;
-import org.esgi.kernel.event.*;
+import org.esgi.shared_kernel.annotations.Configuration;
+import org.esgi.shared_kernel.event.*;
 import org.esgi.use_cases.member.MemberConfiguration;
 import org.esgi.use_cases.member.domain.event.MemberCreatedEvent;
-import org.esgi.use_cases.member.exposition.MemberAccess;
+import org.esgi.use_cases.member.port.MemberAccess;
 import org.esgi.use_cases.member.infrastructure.DefaultEventDispatcher;
 import org.esgi.use_cases.payment.PaymentConfiguration;
 import org.esgi.use_cases.payment.exposition.PaymentAccess;
+import org.esgi.use_cases.projects.ProjectsConfiguration;
+import org.esgi.use_cases.projects.exposition.ProjectsAccess;
+import org.esgi.use_cases.regulations.RegulationsConfiguration;
+import org.esgi.use_cases.regulations.exposition.RegulationsAccess;
 import org.esgi.use_cases.workflows.WorkflowsConfiguration;
 import org.esgi.use_cases.workflows.application.event.MemberCreatedEventListener;
 import org.esgi.use_cases.workflows.exposition.WorkflowsAccess;
@@ -22,16 +26,22 @@ import java.util.Map;
 @Startup
 public class ApplicationConfiguration {
 
-    private final MemberConfiguration    memberConfiguration;
-    private final PaymentConfiguration   paymentConfiguration;
-    private final WorkflowsConfiguration workflowsConfiguration;
+    private final MemberConfiguration      memberConfiguration;
+    private final PaymentConfiguration     paymentConfiguration;
+    private final WorkflowsConfiguration   workflowsConfiguration;
+    private final ProjectsConfiguration    projectsConfiguration;
+    private final RegulationsConfiguration regulationsConfiguration;
 
     public ApplicationConfiguration(MemberConfiguration memberConfiguration,
                                     PaymentConfiguration paymentConfiguration,
-                                    WorkflowsConfiguration workflowsConfiguration) {
+                                    WorkflowsConfiguration workflowsConfiguration,
+                                    ProjectsConfiguration projectsConfiguration,
+                                    RegulationsConfiguration regulationsConfiguration) {
         this.memberConfiguration = memberConfiguration;
         this.paymentConfiguration = paymentConfiguration;
         this.workflowsConfiguration = workflowsConfiguration;
+        this.projectsConfiguration = projectsConfiguration;
+        this.regulationsConfiguration = regulationsConfiguration;
     }
 
     //Application event bus
@@ -49,6 +59,7 @@ public class ApplicationConfiguration {
         return new DefaultEventDispatcher(listenerMap);
     }
 
+    // Ressource Access
     @Singleton
     public MemberAccess memberAccess() {
         return new MemberAccess(memberConfiguration.commandBus(), memberConfiguration.queryBus(), memberConfiguration.memberResponseAdapter());
@@ -62,6 +73,16 @@ public class ApplicationConfiguration {
     @Singleton
     public WorkflowsAccess workflowsAccess() {
         return new WorkflowsAccess(workflowsConfiguration.commandBus(), workflowsConfiguration.queryBus());
+    }
+
+    @Singleton
+    public ProjectsAccess projectsAccess() {
+        return new ProjectsAccess(projectsConfiguration.commandBus(), projectsConfiguration.queryBus());
+    }
+
+    @Singleton
+    public RegulationsAccess regulationsAccess() {
+        return new RegulationsAccess(regulationsConfiguration.commandBus(), regulationsConfiguration.queryBus());
     }
 
 

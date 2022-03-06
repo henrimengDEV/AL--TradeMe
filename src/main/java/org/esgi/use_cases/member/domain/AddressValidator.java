@@ -1,6 +1,6 @@
 package org.esgi.use_cases.member.domain;
 
-import org.esgi.kernel.annotations.Validator;
+import org.esgi.shared_kernel.annotations.Validator;
 import org.esgi.use_cases.member.domain.model.Address;
 
 import java.util.function.Predicate;

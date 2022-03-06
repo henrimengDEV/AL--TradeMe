@@ -1,7 +1,7 @@
 package org.esgi.use_cases.member.domain;
 
 
-import org.esgi.kernel.annotations.Pattern;
+import org.esgi.shared_kernel.annotations.Pattern;
 import org.esgi.use_cases.member.domain.model.Address;
 import org.esgi.use_cases.member.domain.model.NoAddress;
 

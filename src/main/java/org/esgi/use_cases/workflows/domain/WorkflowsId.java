@@ -1,7 +1,7 @@
 package org.esgi.use_cases.workflows.domain;
 
 
-import org.esgi.kernel.ValueObjectId;
+import org.esgi.shared_kernel.ValueObjectId;
 
 import java.util.Objects;
 

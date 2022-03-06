@@ -1,7 +1,7 @@
 package org.esgi.use_cases.payment.exposition;
 
-import org.esgi.kernel.cqs.CommandBus;
-import org.esgi.kernel.cqs.QueryBus;
+import org.esgi.shared_kernel.cqs.CommandBus;
+import org.esgi.shared_kernel.cqs.QueryBus;
 
 public class PaymentAccess {
 

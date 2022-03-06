@@ -29,7 +29,8 @@ public class NoMember implements Member {
         throw new UnsupportedOperationException();
     }
 
-    @Override public String toStringWithAddress() {
+    @Override
+    public Boolean isSubscribed() {
         throw new UnsupportedOperationException();
     }
 
@@ -39,5 +40,9 @@ public class NoMember implements Member {
 
     @Override public void changeAddress(Address address) {
         throw new UnsupportedOperationException();
+    }
+
+    @Override public void changeIsSubscribed(boolean isSubscribed) {
+
     }
 }

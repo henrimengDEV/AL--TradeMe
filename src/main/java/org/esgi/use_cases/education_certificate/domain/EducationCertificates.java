@@ -1,6 +1,6 @@
 package org.esgi.use_cases.education_certificate.domain;
 
-import org.esgi.kernel.annotations.Repository;
+import org.esgi.shared_kernel.annotations.Repository;
 
 import java.util.List;
 

@@ -1,9 +1,9 @@
 package org.esgi.use_cases.member.infrastructure;
 
 
-import org.esgi.kernel.event.Event;
-import org.esgi.kernel.event.EventDispatcher;
-import org.esgi.kernel.event.EventListener;
+import org.esgi.shared_kernel.event.Event;
+import org.esgi.shared_kernel.event.EventDispatcher;
+import org.esgi.shared_kernel.event.EventListener;
 
 import java.util.List;
 import java.util.Map;

@@ -1,6 +1,6 @@
 package org.esgi.use_cases.workflows.infrastructure;
 
-import org.esgi.kernel.exceptions.NoSuchEntityException;
+import org.esgi.shared_kernel.exceptions.NoSuchEntityException;
 import org.esgi.use_cases.workflows.domain.Workflows;
 import org.esgi.use_cases.workflows.domain.WorkflowsId;
 import org.esgi.use_cases.workflows.domain.WorkflowsRepository;

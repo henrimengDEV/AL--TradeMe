@@ -2,8 +2,8 @@ package org.esgi.use_cases.workflows;
 
 
 import org.esgi.ApplicationConfiguration;
-import org.esgi.kernel.annotations.Configuration;
-import org.esgi.kernel.cqs.*;
+import org.esgi.shared_kernel.annotations.Configuration;
+import org.esgi.shared_kernel.cqs.*;
 import org.esgi.use_cases.workflows.application.command.ProcessNewMember;
 import org.esgi.use_cases.workflows.application.command.ProcessNewMemberHandler;
 import org.esgi.use_cases.workflows.domain.WorkflowsRepository;

@@ -1,10 +1,10 @@
 package org.esgi.use_cases.member.application.command;
 
 
-import org.esgi.kernel.annotations.Service;
-import org.esgi.kernel.cqs.CommandHandler;
-import org.esgi.kernel.event.DomainEvent;
-import org.esgi.kernel.event.EventDispatcher;
+import org.esgi.shared_kernel.annotations.Service;
+import org.esgi.shared_kernel.cqs.CommandHandler;
+import org.esgi.shared_kernel.event.DomainEvent;
+import org.esgi.shared_kernel.event.EventDispatcher;
 import org.esgi.use_cases.member.domain.AddressFactory;
 import org.esgi.use_cases.member.domain.MemberBuilder;
 import org.esgi.use_cases.member.domain.MemberRepository;

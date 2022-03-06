@@ -3,7 +3,6 @@ package org.esgi.use_cases.member.domain.model;
 
 import java.util.Objects;
 
-
 public class DefaultMember implements Member {
     private final String   lastname;
     private final String   firstname;
@@ -13,6 +12,7 @@ public class DefaultMember implements Member {
     private       Address    address;
     private final MemberRole memberRole;
     private final String     mail;
+    private boolean isSubscribed;
 
     private DefaultMember(String lastname,
                          String firstname,
@@ -21,7 +21,8 @@ public class DefaultMember implements Member {
                          String password,
                          Address address,
                          MemberRole memberRole,
-                         String mail) {
+                         String mail,
+                          Boolean isSubscribed) {
         this.lastname = lastname;
         this.firstname = firstname;
         this.login = login;
@@ -30,11 +31,12 @@ public class DefaultMember implements Member {
         this.address = address;
         this.memberRole = memberRole;
         this.mail = mail;
+        this.isSubscribed = !Objects.isNull(isSubscribed) && isSubscribed;
     }
 
     public static DefaultMember of(String lastname, String firstname, String login, MemberId memberId, String password,
-                                   Address address, MemberRole memberRole, String mail) {
-        return new DefaultMember(lastname, firstname, login, memberId, password, address, memberRole, mail);
+                                   Address address, MemberRole memberRole, String mail, Boolean isSubscribed) {
+        return new DefaultMember(lastname, firstname, login, memberId, password, address, memberRole, mail, isSubscribed);
     }
 
     @Override
@@ -73,6 +75,11 @@ public class DefaultMember implements Member {
     }
 
     @Override
+    public Boolean isSubscribed() {
+        return isSubscribed;
+    }
+
+    @Override
     public void addMemberId(int id) {
         this.memberId = new MemberId(id);
     }
@@ -83,27 +90,22 @@ public class DefaultMember implements Member {
     }
 
     @Override
-    public String toString() {
-        return "Member{ " +
-                "memberId = '" + (Objects.isNull(memberId) ? "" : memberId.getValue()) + '\'' +
-                ", lastname = '" + lastname + '\'' +
-                ", firstname = '" + firstname + '\'' +
-                ", type = '" + memberRole.getRole() + '\'' +
-                ", mail = '" + mail + '\'' +
-                '}';
+    public void changeIsSubscribed(boolean isSubscribed) {
+        this.isSubscribed = isSubscribed;
     }
 
     @Override
-    public String toStringWithAddress() {
-        return "Member{" +
-                "memberId = '" + (Objects.isNull(memberId) ? "" : memberId.getValue()) + '\'' +
-                ", lastname = '" + lastname + '\'' +
-                ", firstname = '" + firstname + '\'' +
-                ", type = '" + memberRole.getRole() + '\'' +
-                "\n" + address.toString() +
-                ", mail = '" + mail + '\'' +
+    public String toString() {
+        return "DefaultMember{" +
+                "lastname='" + lastname + '\'' +
+                ", firstname='" + firstname + '\'' +
+                ", login='" + login + '\'' +
+                ", memberId=" + memberId +
+                ", password='" + password + '\'' +
+                ", address=" + address +
+                ", memberRole=" + memberRole +
+                ", mail='" + mail + '\'' +
+                ", isSubscribed=" + isSubscribed +
                 '}';
     }
-
-
 }

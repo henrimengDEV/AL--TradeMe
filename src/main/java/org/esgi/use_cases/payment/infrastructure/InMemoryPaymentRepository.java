@@ -1,6 +1,6 @@
 package org.esgi.use_cases.payment.infrastructure;
 
-import org.esgi.kernel.exceptions.NoSuchEntityException;
+import org.esgi.shared_kernel.exceptions.NoSuchEntityException;
 import org.esgi.use_cases.member.domain.model.MemberId;
 import org.esgi.use_cases.payment.domain.PaymentRepository;
 import org.esgi.use_cases.payment.domain.model.Payment;

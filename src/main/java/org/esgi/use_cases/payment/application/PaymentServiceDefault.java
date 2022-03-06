@@ -1,7 +1,7 @@
 package org.esgi.use_cases.payment.application;
 
 
-import org.esgi.kernel.annotations.Service;
+import org.esgi.shared_kernel.annotations.Service;
 import org.esgi.use_cases.member.domain.MemberRepository;
 import org.esgi.use_cases.member.domain.model.Member;
 import org.esgi.use_cases.member.domain.model.MemberId;

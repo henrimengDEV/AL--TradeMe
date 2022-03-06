@@ -1,7 +1,7 @@
 package org.esgi.use_cases.workflows.application.event;
 
 
-import org.esgi.kernel.event.EventListener;
+import org.esgi.shared_kernel.event.EventListener;
 import org.esgi.use_cases.member.domain.event.MemberCreatedEvent;
 import org.esgi.use_cases.workflows.infrastructure.NotificationsByMail;
 
