@@ -37,7 +37,7 @@ public class RegulationsEngine {
         }
 
         if(member.lastname.equals("lol")){
-            regulationDescription = "Your lastname can't be a joke. lol.";
+            regulationDescription = "Lastname can't be a joke. lol. Change it soon or your account will be deleted";
             isRegulated = true;
         }
 

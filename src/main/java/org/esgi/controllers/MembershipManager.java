@@ -84,13 +84,11 @@ public class MembershipManager {
         );
         PaymentId paymentId = paymentAccess.commandBus.send(processPayment);
 
-        PaymentResponse paymentResponse = paymentAccess.queryBus.send(new RetrievePaymentById(paymentId.getValue()));
-        if (paymentResponse.done)
-            memberAccess.commandBus.send(new ChangeMemberSubscriptionStatus(memberId.getValue(), true));
-
-        // Regulation engine
         MemberResponse memberResponse = memberAccess.queryBus.send(new RetrieveMemberById(memberId.getValue()));
-        regulationsEngine.evaluateAddMember(memberResponse, paymentResponse);
+        PaymentResponse paymentResponse = paymentAccess.queryBus.send(new RetrievePaymentById(paymentId.getValue()));
+        if (paymentResponse.done) {
+            memberAccess.commandBus.send(new ChangeMemberSubscriptionStatus(memberId.getValue(), true));
+        }
 
         ProcessNewMember processNewMember = new ProcessNewMember(
                 memberId.getValue(),
@@ -100,6 +98,8 @@ public class MembershipManager {
                 paymentResponse.price,
                 memberResponse.login);
         workflowsAccess.commandBus.send(processNewMember);
+
+        regulationsEngine.evaluateAddMember(memberResponse, paymentResponse);
 
         return Response.created(URI.create("/membership/" + memberId.getValue())).build();
     }
