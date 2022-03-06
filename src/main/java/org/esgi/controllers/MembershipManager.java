@@ -84,11 +84,11 @@ public class MembershipManager {
         );
         PaymentId paymentId = paymentAccess.commandBus.send(processPayment);
 
-        MemberResponse memberResponse = memberAccess.queryBus.send(new RetrieveMemberById(memberId.getValue()));
         PaymentResponse paymentResponse = paymentAccess.queryBus.send(new RetrievePaymentById(paymentId.getValue()));
         if (paymentResponse.done) {
             memberAccess.commandBus.send(new ChangeMemberSubscriptionStatus(memberId.getValue(), true));
         }
+        MemberResponse memberResponse = memberAccess.queryBus.send(new RetrieveMemberById(memberId.getValue()));
 
         ProcessNewMember processNewMember = new ProcessNewMember(
                 memberId.getValue(),
