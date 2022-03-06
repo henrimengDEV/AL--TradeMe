@@ -1,10 +1,10 @@
 package org.esgi.controllers;
 
 
-import org.esgi.shared_kernel.exceptions.NoSuchEntityException;
-import org.esgi.shared_kernel.exceptions.NotValidAttributeException;
-import org.esgi.shared_kernel.exceptions.PaymentException;
-import org.esgi.shared_kernel.exceptions.RegulatedException;
+import org.esgi.kernel.exceptions.NoSuchEntityException;
+import org.esgi.kernel.exceptions.NotValidAttributeException;
+import org.esgi.kernel.exceptions.PaymentException;
+import org.esgi.kernel.exceptions.RegulatedException;
 
 import javax.json.Json;
 import javax.validation.ValidationException;

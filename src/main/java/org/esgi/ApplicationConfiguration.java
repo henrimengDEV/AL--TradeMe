@@ -1,24 +1,24 @@
 package org.esgi;
 
 import io.quarkus.runtime.Startup;
-import org.esgi.engines.RegulationsEngine;
-import org.esgi.shared_kernel.annotations.Configuration;
-import org.esgi.shared_kernel.event.*;
-import org.esgi.use_cases.member.MemberConfiguration;
-import org.esgi.use_cases.member.domain.event.MemberCreatedEvent;
-import org.esgi.use_cases.member.infrastructure.DefaultEventDispatcher;
-import org.esgi.use_cases.member.port.MemberAccess;
-import org.esgi.use_cases.payment.PaymentConfiguration;
-import org.esgi.use_cases.payment.port.PaymentAccess;
-import org.esgi.use_cases.projects.ProjectsConfiguration;
-import org.esgi.use_cases.projects.port.ProjectsAccess;
-import org.esgi.use_cases.regulations.RegulationsConfiguration;
-import org.esgi.use_cases.regulations.domain.event.UnsubscribedMemberEvent;
-import org.esgi.use_cases.regulations.port.RegulationsAccess;
-import org.esgi.use_cases.workflows.WorkflowsConfiguration;
-import org.esgi.use_cases.workflows.application.event.MemberCreatedEventListener;
-import org.esgi.use_cases.workflows.application.event.UnsubscribedMemberEventListener;
-import org.esgi.use_cases.workflows.exposition.WorkflowsAccess;
+import org.esgi.core.engines.RegulationsEngine;
+import org.esgi.kernel.annotations.Configuration;
+import org.esgi.kernel.event.*;
+import org.esgi.core.use_cases.member.MemberConfiguration;
+import org.esgi.core.use_cases.member.domain.event.MemberCreatedEvent;
+import org.esgi.core.use_cases.member.infrastructure.DefaultEventDispatcher;
+import org.esgi.core.use_cases.member.MemberAccess;
+import org.esgi.core.use_cases.payment.PaymentConfiguration;
+import org.esgi.core.use_cases.payment.PaymentAccess;
+import org.esgi.core.use_cases.projects.ProjectsConfiguration;
+import org.esgi.core.use_cases.projects.ProjectsAccess;
+import org.esgi.core.use_cases.regulations.RegulationsConfiguration;
+import org.esgi.core.use_cases.regulations.domain.event.UnsubscribedMemberEvent;
+import org.esgi.core.use_cases.regulations.RegulationsAccess;
+import org.esgi.core.use_cases.workflows.WorkflowsConfiguration;
+import org.esgi.core.use_cases.workflows.application.event.MemberCreatedEventListener;
+import org.esgi.core.use_cases.workflows.application.event.UnsubscribedMemberEventListener;
+import org.esgi.core.use_cases.workflows.WorkflowsAccess;
 
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Singleton;
@@ -90,7 +90,7 @@ public class ApplicationConfiguration {
         return new RegulationsAccess(regulationsConfiguration.commandBus(), regulationsConfiguration.queryBus());
     }
 
-    //Engines
+    //Engine services
     @Singleton
     public RegulationsEngine regulationsEngine(){
         return new RegulationsEngine(regulationsAccess());
