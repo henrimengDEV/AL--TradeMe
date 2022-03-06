@@ -3,14 +3,13 @@ package org.esgi.use_cases.member.port.response;
 @SuppressWarnings("all")
 public class MemberResponse {
 
-    public int          id;
-    public String          lastname;
-    public String          firstname;
-    public String login;
-    public String role;
-    public String mail;
-    public boolean         isSubscribed;
-    public AddressResponse address;
+    public final int          id;
+    public final String          lastname;
+    public final String          firstname;
+    public final String login;
+    public final String role;
+    public final String mail;
+    public final boolean         isSubscribed;
 
     public MemberResponse(int id,
                           String lastname,
@@ -18,8 +17,7 @@ public class MemberResponse {
                           String login,
                           String role,
                           String mail,
-                          boolean isSubscribed,
-                          AddressResponse address) {
+                          boolean isSubscribed) {
         this.id = id;
         this.lastname = lastname;
         this.firstname = firstname;
@@ -27,7 +25,6 @@ public class MemberResponse {
         this.role = role;
         this.mail = mail;
         this.isSubscribed = isSubscribed;
-        this.address = address;
     }
 
 
@@ -40,7 +37,6 @@ public class MemberResponse {
                 ", memberType='" + role + '\'' +
                 ", mail='" + mail + '\'' +
                 ", isSubscribed=" + isSubscribed +
-                ", address=" + address +
                 '}';
     }
 }

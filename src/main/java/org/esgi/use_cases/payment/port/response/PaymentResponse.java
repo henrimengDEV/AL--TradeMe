@@ -1,4 +1,4 @@
-package org.esgi.use_cases.payment.exposition.response;
+package org.esgi.use_cases.payment.port.response;
 
 @SuppressWarnings("all")
 public class PaymentResponse {

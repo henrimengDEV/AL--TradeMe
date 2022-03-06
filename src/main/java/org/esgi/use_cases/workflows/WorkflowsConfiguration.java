@@ -11,6 +11,7 @@ import org.esgi.use_cases.workflows.infrastructure.InMemoryWorkflowsRepository;
 import org.esgi.use_cases.workflows.infrastructure.NotificationsByMail;
 
 import javax.enterprise.context.Dependent;
+import javax.enterprise.context.RequestScoped;
 import javax.inject.Singleton;
 import java.util.HashMap;
 import java.util.Map;
@@ -18,10 +19,12 @@ import java.util.Map;
 @Configuration
 @Dependent
 public class WorkflowsConfiguration {
-    private ApplicationConfiguration appConfiguration;
+    private final ApplicationConfiguration appConfiguration;
+
+    public WorkflowsConfiguration(ApplicationConfiguration appConfiguration) {this.appConfiguration = appConfiguration;}
 
     //Command bus
-    @Singleton
+    @RequestScoped
     public CommandBus commandBus() {
         final Map<Class<? extends Command>, CommandHandler> commandHandlerMap = new HashMap<>();
         commandHandlerMap.put(ProcessNewMember.class, new ProcessNewMemberHandler(workflowsRepository(), notificationsByMail()));
@@ -29,7 +32,7 @@ public class WorkflowsConfiguration {
     }
 
     //Query bus
-    @Singleton
+    @RequestScoped
     public QueryBus queryBus() {
         final Map<Class<? extends Query>, QueryHandler> queryHandlerMap = new HashMap<>();
         return new SimpleQueryBus(queryHandlerMap);
@@ -40,6 +43,7 @@ public class WorkflowsConfiguration {
         return InMemoryWorkflowsRepository.getInstance();
     }
 
+    //Infrastructure service
     @Singleton
     public NotificationsByMail notificationsByMail() {
         return new NotificationsByMail();

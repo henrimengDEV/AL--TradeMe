@@ -1,5 +1,9 @@
 package org.esgi.use_cases.member.domain.model;
 
+import org.esgi.use_cases.projects.domain.ProjectId;
+
+import java.util.List;
+
 public class NoMember implements Member {
     @Override public String getLastname() {
         throw new UnsupportedOperationException();
@@ -29,8 +33,7 @@ public class NoMember implements Member {
         throw new UnsupportedOperationException();
     }
 
-    @Override
-    public Boolean isSubscribed() {
+    @Override public Boolean isSubscribed() {
         throw new UnsupportedOperationException();
     }
 
@@ -43,6 +46,10 @@ public class NoMember implements Member {
     }
 
     @Override public void changeIsSubscribed(boolean isSubscribed) {
+        throw new UnsupportedOperationException();
+    }
 
+    @Override public List<ProjectId> getProjects() {
+        throw new UnsupportedOperationException();
     }
 }

@@ -1,4 +1,4 @@
-package org.esgi.use_cases.regulations.exposition;
+package org.esgi.use_cases.regulations.port;
 
 import org.esgi.shared_kernel.cqs.CommandBus;
 import org.esgi.shared_kernel.cqs.QueryBus;

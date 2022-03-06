@@ -10,21 +10,24 @@ import org.esgi.use_cases.member.application.command.CreateMember;
 import org.esgi.use_cases.member.application.command.CreateMemberHandler;
 import org.esgi.use_cases.member.application.query.*;
 import org.esgi.use_cases.member.domain.MemberRepository;
-import org.esgi.use_cases.member.port.response.MemberResponseAdapter;
 import org.esgi.use_cases.member.infrastructure.InMemoryMemberRepository;
+import org.esgi.use_cases.member.port.response.MemberResponseAdapter;
 
 import javax.enterprise.context.Dependent;
-import javax.inject.Singleton;
+import javax.enterprise.context.RequestScoped;
 import java.util.HashMap;
 import java.util.Map;
 
 @Configuration
 @Dependent
 public class MemberConfiguration {
-    private ApplicationConfiguration appConfiguration;
+    private final ApplicationConfiguration appConfiguration;
+
+    public MemberConfiguration(ApplicationConfiguration appConfiguration) {this.appConfiguration = appConfiguration;}
+
 
     //Command bus
-    @Singleton
+    @RequestScoped
     public CommandBus commandBus() {
         final Map<Class<? extends Command>, CommandHandler> commandHandlerMap = new HashMap<>();
         commandHandlerMap.put(CreateMember.class, new CreateMemberHandler(memberRepository(), appConfiguration.domainEventDispatcher()));
@@ -33,7 +36,7 @@ public class MemberConfiguration {
     }
 
     //Query bus
-    @Singleton
+    @RequestScoped
     public QueryBus queryBus() {
         final Map<Class<? extends Query>, QueryHandler> queryHandlerMap = new HashMap<>();
         queryHandlerMap.put(RetrieveMembers.class, new RetrieveMembersHandler(memberRepository(), memberResponseAdapter()));
@@ -49,7 +52,7 @@ public class MemberConfiguration {
     }
 
     //Service beans
-    @Singleton
+    @RequestScoped
     public MemberResponseAdapter memberResponseAdapter() {
         return new MemberResponseAdapter();
     }

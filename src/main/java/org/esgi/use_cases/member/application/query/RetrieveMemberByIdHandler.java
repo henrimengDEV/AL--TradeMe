@@ -22,6 +22,6 @@ public class RetrieveMemberByIdHandler implements QueryHandler<RetrieveMemberByI
     @Override
     public MemberResponse handle(RetrieveMemberById query) {
         Member member = MemberRepository.findById(MemberId.of(query.id));
-        return memberResponseAdapter.adapt(member);
+        return memberResponseAdapter.adaptWithAll(member);
     }
 }

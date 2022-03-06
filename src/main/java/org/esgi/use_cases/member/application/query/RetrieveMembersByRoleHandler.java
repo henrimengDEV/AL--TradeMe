@@ -30,7 +30,7 @@ public class RetrieveMembersByRoleHandler implements QueryHandler<RetrieveMember
         ) {
             List<Member> members = MemberRepository.findByRole(query.role);
             return new MembersResponse(members.stream()
-                                              .map(memberResponseAdapter::adapt)
+                                              .map(memberResponseAdapter::adaptWithAddress)
                                               .collect(Collectors.toList())
             );
         }

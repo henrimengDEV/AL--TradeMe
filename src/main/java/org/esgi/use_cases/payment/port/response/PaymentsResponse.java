@@ -1,4 +1,4 @@
-package org.esgi.use_cases.payment.exposition.response;
+package org.esgi.use_cases.payment.port.response;
 
 import java.util.List;
 
