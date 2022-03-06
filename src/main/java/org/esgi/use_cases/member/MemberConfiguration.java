@@ -1,7 +1,7 @@
 package org.esgi.use_cases.member;
 
 
-import org.esgi.AppConfiguration;
+import org.esgi.ApplicationConfiguration;
 import org.esgi.kernel.annotations.Configuration;
 import org.esgi.kernel.cqs.*;
 import org.esgi.use_cases.member.application.command.CreateMember;
@@ -20,9 +20,9 @@ import java.util.Map;
 @Dependent
 public class MemberConfiguration {
 
-    private final AppConfiguration appConfiguration;
+    private final ApplicationConfiguration appConfiguration;
 
-    public MemberConfiguration(AppConfiguration appConfiguration) {this.appConfiguration = appConfiguration;}
+    public MemberConfiguration(ApplicationConfiguration appConfiguration) {this.appConfiguration = appConfiguration;}
 
     //Command bus
     @Singleton

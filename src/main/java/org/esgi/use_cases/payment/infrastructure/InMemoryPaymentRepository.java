@@ -1,6 +1,7 @@
 package org.esgi.use_cases.payment.infrastructure;
 
 import org.esgi.kernel.exceptions.NoSuchEntityException;
+import org.esgi.use_cases.member.domain.model.MemberId;
 import org.esgi.use_cases.payment.domain.PaymentRepository;
 import org.esgi.use_cases.payment.domain.model.Payment;
 import org.esgi.use_cases.payment.domain.model.PaymentId;
@@ -30,7 +31,6 @@ public final class InMemoryPaymentRepository implements PaymentRepository {
     @Override
     public Payment add(Payment payment) {
         data.put(payment.getPaymentId(), payment);
-        payment.addPaymentId(counter.get());
         return payment;
     }
 
@@ -54,8 +54,13 @@ public final class InMemoryPaymentRepository implements PaymentRepository {
     public Payment findById(PaymentId paymentId) {
         final Payment payment = data.get(paymentId);
         if (payment == null) {
-            throw new NoSuchEntityException("No member for " + paymentId.getValue());
+            throw new NoSuchEntityException("No payment for " + paymentId.getValue());
         }
         return payment;
+    }
+
+    @Override
+    public List<Payment> findByMemberId(MemberId memberId) {
+        return data.values().stream().filter(value -> value.getMemberId().equals(memberId)).collect(Collectors.toList());
     }
 }

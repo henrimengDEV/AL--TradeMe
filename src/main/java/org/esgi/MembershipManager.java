@@ -14,8 +14,12 @@ import org.esgi.use_cases.member.exposition.request.MemberRequest;
 import org.esgi.use_cases.member.exposition.response.MemberResponse;
 import org.esgi.use_cases.member.exposition.response.MembersResponse;
 import org.esgi.use_cases.payment.application.command.ProcessPayment;
+import org.esgi.use_cases.payment.application.query.RetrievePaymentById;
+import org.esgi.use_cases.payment.domain.model.Payment;
 import org.esgi.use_cases.payment.domain.model.PaymentId;
 import org.esgi.use_cases.payment.exposition.PaymentAccess;
+import org.esgi.use_cases.workflows.application.command.ProcessNewMember;
+import org.esgi.use_cases.workflows.exposition.WorkflowsAccess;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.validation.Valid;
@@ -31,14 +35,17 @@ import java.util.stream.Collectors;
 @ApplicationScoped
 @Path("/membership")
 public class MembershipManager {
-    private static final Logger        LOGGER = Logger.getLogger(MembershipManager.class.getName());
-    private final        MemberAccess  memberAccess;
-    private final        PaymentAccess paymentAccess;
+    private static final Logger          LOGGER = Logger.getLogger(MembershipManager.class.getName());
+    private final        MemberAccess    memberAccess;
+    private final        PaymentAccess   paymentAccess;
+    private final        WorkflowsAccess workflowsAccess;
 
     public MembershipManager(MemberAccess memberAccess,
-                             PaymentAccess paymentAccess) {
+                             PaymentAccess paymentAccess,
+                             WorkflowsAccess workflowsAccess) {
         this.memberAccess = memberAccess;
         this.paymentAccess = paymentAccess;
+        this.workflowsAccess = workflowsAccess;
     }
 
     @POST
@@ -69,8 +76,22 @@ public class MembershipManager {
         );
         PaymentId paymentId = paymentAccess.commandBus.send(processPayment);
 
-        return Response.created(URI.create("/membership/" + memberId.getValue())).build();
-    }
+        Member  member = memberAccess.queryBus.send(new RetrieveMemberById(memberId.getValue()));
+        Payment payment = paymentAccess.queryBus.send(new RetrievePaymentById(paymentId.getValue()));
+        ProcessNewMember processNewMember = new ProcessNewMember(
+                memberId.getValue(),
+                paymentId.getValue(),
+                member.getMail(),
+                member.getLastname(),
+                payment.getPrice().getValue() + " " + payment.getPrice().getDevise(),
+                member.getLogin());
+        workflowsAccess.commandBus.send(processNewMember);
+
+        return Response.created(URI.create("/membership/"+memberId.getValue())).
+
+    build();
+
+}
 
     @GET()
     @Produces({MediaType.APPLICATION_JSON, MediaType.APPLICATION_XML})

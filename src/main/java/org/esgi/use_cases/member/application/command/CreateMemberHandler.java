@@ -8,14 +8,14 @@ import org.esgi.kernel.event.EventDispatcher;
 import org.esgi.use_cases.member.domain.AddressFactory;
 import org.esgi.use_cases.member.domain.MemberBuilder;
 import org.esgi.use_cases.member.domain.MemberRepository;
-import org.esgi.use_cases.member.domain.event.memberCreatedEvent;
+import org.esgi.use_cases.member.domain.event.MemberCreatedEvent;
 import org.esgi.use_cases.member.domain.model.Member;
 import org.esgi.use_cases.member.domain.model.MemberId;
 
 @Service
 public class CreateMemberHandler implements CommandHandler<CreateMember, MemberId> {
 
-    private final org.esgi.use_cases.member.domain.MemberRepository MemberRepository;
+    private final MemberRepository MemberRepository;
 
     private final EventDispatcher<DomainEvent>      domainEventDispatcher;
 
@@ -43,10 +43,14 @@ public class CreateMemberHandler implements CommandHandler<CreateMember, MemberI
                                                    command.address.zipCode))
                                            .withMail(command.mail)
                                            .build();
-        MemberRepository.add(member);
+        Member memberAdded = MemberRepository.add(member);
 
-        domainEventDispatcher.dispatch(memberCreatedEvent.withMember(member));
+        domainEventDispatcher.dispatch(
+                MemberCreatedEvent.create()
+                                  .withLogin(memberAdded.getLogin())
+                                  .withMail(memberAdded.getMail())
+        );
 
-        return memberId;
+        return memberAdded.getMemberId();
     }
 }

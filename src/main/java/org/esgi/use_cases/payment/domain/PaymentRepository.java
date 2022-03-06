@@ -1,5 +1,6 @@
 package org.esgi.use_cases.payment.domain;
 
+import org.esgi.use_cases.member.domain.model.MemberId;
 import org.esgi.use_cases.payment.domain.model.Payment;
 import org.esgi.use_cases.payment.domain.model.PaymentId;
 
@@ -16,4 +17,6 @@ public interface PaymentRepository {
     List<Payment> findAll();
 
     Payment findById(PaymentId paymentId);
+
+    List<Payment> findByMemberId(MemberId memberId);
 }

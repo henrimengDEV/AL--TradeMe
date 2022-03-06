@@ -1,7 +1,7 @@
 package org.esgi.use_cases.payment;
 
 
-import org.esgi.AppConfiguration;
+import org.esgi.ApplicationConfiguration;
 import org.esgi.kernel.annotations.Configuration;
 import org.esgi.kernel.cqs.*;
 import org.esgi.use_cases.member.domain.MemberRepository;
@@ -9,6 +9,10 @@ import org.esgi.use_cases.member.infrastructure.InMemoryMemberRepository;
 import org.esgi.use_cases.payment.application.PaymentServiceDefault;
 import org.esgi.use_cases.payment.application.command.ProcessPayment;
 import org.esgi.use_cases.payment.application.command.ProcessPaymentHandler;
+import org.esgi.use_cases.payment.application.query.RetrievePaymentById;
+import org.esgi.use_cases.payment.application.query.RetrievePaymentByIdHandler;
+import org.esgi.use_cases.payment.application.query.RetrievePaymentByMemberId;
+import org.esgi.use_cases.payment.application.query.RetrievePaymentByMemberIdHandler;
 import org.esgi.use_cases.payment.domain.PaymentRepository;
 import org.esgi.use_cases.payment.domain.PaymentService;
 import org.esgi.use_cases.payment.infrastructure.InMemoryPaymentRepository;
@@ -22,9 +26,9 @@ import java.util.Map;
 @Dependent
 public class PaymentConfiguration {
 
-    private final AppConfiguration appConfiguration;
+    private final ApplicationConfiguration appConfiguration;
 
-    public PaymentConfiguration(AppConfiguration appConfiguration) {this.appConfiguration = appConfiguration;}
+    public PaymentConfiguration(ApplicationConfiguration appConfiguration) {this.appConfiguration = appConfiguration;}
 
     //Command bus
     @Singleton
@@ -38,6 +42,8 @@ public class PaymentConfiguration {
     @Singleton
     public QueryBus queryBus() {
         final Map<Class<? extends Query>, QueryHandler> queryHandlerMap = new HashMap<>();
+        queryHandlerMap.put(RetrievePaymentById.class, new RetrievePaymentByIdHandler(paymentRepository()));
+        queryHandlerMap.put(RetrievePaymentByMemberId.class, new RetrievePaymentByMemberIdHandler(paymentRepository()));
         return new SimpleQueryBus(queryHandlerMap);
     }
 
