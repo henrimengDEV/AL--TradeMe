@@ -1,51 +1,51 @@
 package org.esgi.core.use_cases.member.domain.event;
 
+import java.time.ZonedDateTime;
 import org.esgi.kernel.event.DomainEvent;
 import org.esgi.kernel.event.EventId;
 
-import java.time.ZonedDateTime;
-
 public class MemberCreatedEvent implements DomainEvent {
-    private final EventId       eventId;
-    private final ZonedDateTime occurredDate;
-    private  String        memberMail;
-    private  String        memberLogin;
 
-    private MemberCreatedEvent(EventId eventId,
-                              ZonedDateTime occurredDate) {
-        this.eventId = eventId;
-        this.occurredDate = occurredDate;
-    }
+  private final EventId       eventId;
+  private final ZonedDateTime occurredDate;
+  private       String        memberMail;
+  private       String        memberLogin;
 
-    public static MemberCreatedEvent create() {
-        return new MemberCreatedEvent(EventId.create(), ZonedDateTime.now());
-    }
+  private MemberCreatedEvent(EventId eventId,
+                             ZonedDateTime occurredDate) {
+    this.eventId = eventId;
+    this.occurredDate = occurredDate;
+  }
 
-    public  MemberCreatedEvent withMail(String memberMail) {
-        this.memberMail = memberMail;
-        return this;
-    }
+  public static MemberCreatedEvent create() {
+    return new MemberCreatedEvent(EventId.create(), ZonedDateTime.now());
+  }
 
-    public  MemberCreatedEvent withLogin(String memberLogin) {
-        this.memberLogin = memberLogin;
-        return this;
-    }
+  public MemberCreatedEvent withMail(String memberMail) {
+    this.memberMail = memberMail;
+    return this;
+  }
 
-    @Override
-    public EventId getId() {
-        return this.eventId;
-    }
+  public MemberCreatedEvent withLogin(String memberLogin) {
+    this.memberLogin = memberLogin;
+    return this;
+  }
 
-    @Override
-    public ZonedDateTime getOccurredDate() {
-        return this.occurredDate;
-    }
+  @Override
+  public EventId getId() {
+    return this.eventId;
+  }
 
-    public String getMemberMail() {
-        return this.memberMail;
-    }
+  @Override
+  public ZonedDateTime getOccurredDate() {
+    return this.occurredDate;
+  }
 
-    public String getMemberLogin() {
-        return memberLogin;
-    }
+  public String getMemberMail() {
+    return this.memberMail;
+  }
+
+  public String getMemberLogin() {
+    return memberLogin;
+  }
 }

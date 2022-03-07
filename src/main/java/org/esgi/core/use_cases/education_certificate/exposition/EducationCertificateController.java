@@ -8,10 +8,10 @@ import javax.ws.rs.core.MediaType;
 @Path("/education-certificate")
 public final class EducationCertificateController {
 
-    @GET
-    @Path("/")
-    @Produces(MediaType.TEXT_PLAIN)
-    public String welcome() {
-        return "Welcome to EducationCertificate";
-    }
+  @GET
+  @Path("/")
+  @Produces(MediaType.TEXT_PLAIN)
+  public String welcome() {
+    return "Welcome to EducationCertificate";
+  }
 }

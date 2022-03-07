@@ -1,32 +1,41 @@
 package org.esgi.core.use_cases.member.domain.model;
 
-import org.esgi.core.use_cases.projects.domain.ProjectId;
-
 import java.util.List;
+import org.esgi.core.use_cases.member.domain.GeographicZone;
+import org.esgi.core.use_cases.project.domain.job.JobType;
+import org.esgi.core.use_cases.project.domain.project.ProjectId;
 
 public interface Member {
 
-    String getLastname();
+  String getLastname();
 
-    String getFirstname();
+  String getFirstname();
 
-    String getLogin();
+  String getLogin();
 
-    MemberId getMemberId();
+  MemberId getMemberId();
 
-    Address getAddress();
+  Address getAddress();
 
-    MemberRole getMemberRole();
+  MemberRole getMemberRole();
 
-    String getMail();
+  String getMail();
 
-    Boolean isSubscribed();
+  List<JobType> getCompetences();
 
-    void addMemberId(int id);
+  Boolean isSubscribed();
 
-    void changeAddress(Address address);
+  void addMemberId(int id);
 
-    void changeIsSubscribed(boolean isSubscribed);
+  void changeAddress(Address address);
 
-    List<ProjectId> getProjects();
+  void changeIsSubscribed(boolean isSubscribed);
+
+  List<ProjectId> getProjects();
+
+  GeographicZone getGeographicZoneOfAvailability();
+
+  void addProject(ProjectId projectId);
+
+  void addCompetence(JobType job);
 }

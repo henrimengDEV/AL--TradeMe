@@ -4,7 +4,7 @@ import java.time.ZonedDateTime;
 
 public interface Event {
 
-    EventId getId();
+  EventId getId();
 
-    ZonedDateTime getOccurredDate();
+  ZonedDateTime getOccurredDate();
 }

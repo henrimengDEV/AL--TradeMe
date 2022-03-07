@@ -1,55 +1,37 @@
 package org.esgi.core.use_cases.payment.application;
 
 
-import org.esgi.kernel.annotations.Service;
-import org.esgi.core.use_cases.member.domain.MemberRepository;
-import org.esgi.core.use_cases.member.domain.model.Member;
-import org.esgi.core.use_cases.member.domain.model.MemberId;
-import org.esgi.core.use_cases.payment.domain.*;
-import org.esgi.core.use_cases.payment.domain.model.*;
-
-import java.util.Objects;
 import java.util.logging.Logger;
+import org.esgi.core.use_cases.member.domain.MemberRepository;
+import org.esgi.core.use_cases.payment.domain.PaymentRepository;
+import org.esgi.core.use_cases.payment.domain.PaymentService;
+import org.esgi.core.use_cases.payment.domain.PaymentStrategy;
+import org.esgi.core.use_cases.payment.domain.PaymentStrategyFactory;
+import org.esgi.core.use_cases.payment.domain.model.payment.Payment;
+import org.esgi.kernel.annotations.Service;
 
 @Service
 public class PaymentServiceDefault implements PaymentService {
-    private static final Logger LOGGER = Logger.getLogger(PaymentServiceDefault.class.getName());
 
-    private final PaymentRepository            paymentRepository;
-    private final MemberRepository             memberRepository;
+  private static final Logger LOGGER = Logger.getLogger(PaymentServiceDefault.class.getName());
 
-    public PaymentServiceDefault(PaymentRepository paymentRepository,
-                                 MemberRepository memberRepository) {
-        this.memberRepository = memberRepository;
-        this.paymentRepository = paymentRepository;
-    }
+  private final PaymentRepository paymentRepository;
+  private final MemberRepository  memberRepository;
 
-    @Override
-    public PaymentId process(MemberId memberId, String transactionId, String methodOfPayment, String subscriptionPlan) {
-        Member    member    = this.memberRepository.findById(memberId);
-        PaymentId paymentId = this.paymentRepository.nextId();
-        Price     price     = EuroPrice.of(10);         //Fake retrieve price from database
-        Payment paymentToProceed = DefaultPayment.of(
-                TransactionId.of(transactionId),
-                memberId,
-                paymentId,
-                MethodOfPaymentType.fromString(methodOfPayment),
-                SubscriptionPlanFactory.create(Objects.requireNonNull(SubscriptionType.fromString(subscriptionPlan))),
-                price,
-                false
-        );
+  public PaymentServiceDefault(PaymentRepository paymentRepository,
+                               MemberRepository memberRepository) {
+    this.memberRepository = memberRepository;
+    this.paymentRepository = paymentRepository;
+  }
 
-        LOGGER.info("Payment started for : " + member.getLogin() + ", type= " + member.getMemberRole()
-                                                                                      .toString() + "\n");
+  @Override
+  public Payment process(Payment paymentToProceed) {
 
-        PaymentStrategy paymentStrategy = PaymentStrategyFactory.getStrategy(
-                Objects.requireNonNull(MethodOfPaymentType.fromString(methodOfPayment))
-        );
-        Payment payment       = paymentStrategy.pay(paymentToProceed);
-        var     paymentResult = this.paymentRepository.add(payment);
+    LOGGER.info("Payment started for transaction : " + paymentToProceed.getTransactionId() + "\n");
 
-        //domainEventDispatcher.dispatch(new MemberSubscriptionConfirmedEvent(EventId.create(), ZonedDateTime.now(), member, payment));
+    PaymentStrategy paymentStrategy = PaymentStrategyFactory.getStrategy(
+        paymentToProceed.getMethodOfPayment());
+    return paymentStrategy.pay(paymentToProceed);
 
-        return paymentResult.getPaymentId();
-    }
+  }
 }

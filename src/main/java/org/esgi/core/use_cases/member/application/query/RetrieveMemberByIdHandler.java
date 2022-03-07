@@ -8,14 +8,14 @@ import org.esgi.kernel.cqs.QueryHandler;
 
 public class RetrieveMemberByIdHandler implements QueryHandler<RetrieveMemberById, Member> {
 
-    private final MemberRepository      MemberRepository;
+  private final MemberRepository MemberRepository;
 
-    public RetrieveMemberByIdHandler(MemberRepository MemberRepository) {
-        this.MemberRepository = MemberRepository;
-    }
+  public RetrieveMemberByIdHandler(MemberRepository MemberRepository) {
+    this.MemberRepository = MemberRepository;
+  }
 
-    @Override
-    public Member handle(RetrieveMemberById query) {
-        return MemberRepository.findById(MemberId.of(query.id));
-    }
+  @Override
+  public Member handle(RetrieveMemberById query) {
+    return MemberRepository.findById(MemberId.of(query.id));
+  }
 }
