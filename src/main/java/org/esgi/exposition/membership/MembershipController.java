@@ -73,7 +73,7 @@ public class MembershipController {
                                                                 request.address.street, request.address.zipcode),
                                                  request.mail, request.geographicZoneOfAvailability,
                                                  request.competences);
-    MemberId memberId = commandBus.send(creaxteMember);
+    MemberId memberId = commandBus.send(createMember);
 
     ProcessMembershipPayment processPayment = new ProcessMembershipPayment(request.payment.methodOfPayment,
                                                                            request.payment.subscriptionPlan,

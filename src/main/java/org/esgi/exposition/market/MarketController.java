@@ -70,10 +70,8 @@ public class MarketController {
                                                                    createProjectRequest.address.zipcode)
 
     );
-    System.out.println("created");
     ProjectId projectId = commandBus.send(createProject);
 
-    System.out.println("command");
     ActivateProject activateProject = new ActivateProject(projectId.getValue());
     projectId = commandBus.send(activateProject);
 
